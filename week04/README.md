@@ -7,13 +7,7 @@
 
       For unsigned integers, there are two flags (bits in the [FLAGS](https://en.wikipedia.org/wiki/FLAGS_register#FLAGS) register) that are important: the zero (**ZF**) and carry (**CF**) flags. The zero flag is set (1) if the resulting difference would be zero. The carry flag is used as a borrow flag for subtraction.
 
-      For signed integers, there are three flags that are important: the zero
-      (ZF) flag, the overflow (OF) flag and the sign (SF) flag. The overflow
-      flag is set if the result of an operation overflows (or underflows). The
-      sign flag is set if the result of an operation is negative. If vleft
-      = vright, the ZF is set (just as for unsigned integers). If vleft
-      > vright, ZF is unset and SF = OF. If vleft < vright, ZF is unset and SF
-      6= OF.
+      For signed integers, there are three flags that are important: the zero (ZF) flag, the overflow (OF) flag and the sign (SF) flag. The overflow flag is set if the result of an operation overflows (or underflows). The sign flag is set if the result of an operation is negative. If vleft = vright, the ZF is set (just as for unsigned integers). If vleft > vright, ZF is unset and SF = OF. If vleft < vright, ZF is unset and SF != OF.
 
       Do not forget that other instructions can also change the FLAGS register,
       not just CMP.
