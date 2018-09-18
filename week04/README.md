@@ -16,6 +16,11 @@
 
     ![alt text](https://i.imgur.com/Gn5OKMi.png?1 "Table from textbook")
 
+    Branch instructions can transfer execution to arbitrary points of a program.  In other words, they act like a goto. There are two types of branches: unconditional and conditional. An unconditional branch is just like a goto, it always makes the branch. A conditional branch may or may not make the branch depending on the flags in the FLAGS register. If a conditional branch does not make the branch, control passes to the next instruction.  The JMP (short for jump) instruction makes unconditional branches. Its single argument is usually a code label to the instruction to branch to.  The assembler or linker will replace the label with correct address of the instruction.  This is another one of the tedious operations that the assembler does to make the programmer’s life easier. It is important to realize that the statement immediately after the JMP instruction will never be executed unless another instruction branches to it!
+
+    There are several variations of the jump instruction:
+
+
     - **SHORT**
 
         This jump is very limited in range. It can only move up or down 128 bytes in memory. The advantage of this type is that it uses less memory than the others. It uses a single signed byte to store the displacement of the jump. The displacement is how many bytes to move ahead or behind. (The displacement is added to EIP). To specify a short jump, use the SHORT keyword immediately before the label in the JMP instruction.
