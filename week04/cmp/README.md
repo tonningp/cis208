@@ -4,7 +4,7 @@
 
     To make and run this code:
 
-    ```bash
-    make main
-    make run
-    ```
+```bash
+make main
+make run
+```
