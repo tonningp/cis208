@@ -1,11 +1,7 @@
 ;
-; file: math.asm
-; This program demonstrates how the integer multiplication and division
-; instructions work.
+; file: asm_main.asm
+; description: this file demonstrates simple compares
 ;
-; To create executable:
-; nasm -f coff math.asm
-; gcc -o math math.o driver.c asm_io.o
 
 %include "asm_io.inc"
 
@@ -13,7 +9,8 @@ segment .data
 ;
 ; Output strings
 ;
-prompt          db    "Enter a number: ", 0
+before          db    "Before cmp: ",10,0
+after           db    "After cmp: ",10,0
 
 segment .bss
 input   resd 1
@@ -27,11 +24,34 @@ asm_main:
 
 
 b1:
+	mov eax,before
+	call print_string
+	mov eax,20
+	mov ebx,20
+	dump_regs 1
+	cmp eax,ebx
+	mov eax,after
+	call print_string
+	dump_regs 2
+	mov eax,before
+	call print_string
+	mov eax,10
+	mov ebx,20
+	dump_regs 3
+	cmp eax,ebx
+	mov eax,after
+	call print_string
+	dump_regs 4
+	mov eax,before
+	call print_string
 	mov eax,20
 	mov ebx,10
-
+	dump_regs 5
 	cmp eax,ebx
-b2:
+	mov eax,after
+	call print_string
+	dump_regs 6
+
         popa
         mov     eax, 0            ; return back to C
         leave                     
