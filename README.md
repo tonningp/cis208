@@ -8,22 +8,43 @@
 
 -   ## [Week 2](week02)
 
-    ## Second week -- Shell Tutorial and vim tutorial
+    ### Second week -- Shell Tutorial and vim tutorial
 
 -   ## [Week 3](week03)
 
-    ## Basic Assembly Language
+    ### Basic Assembly Language
 
--   [week04]( week04)
--   [week05]( week05)
--   [week06]( week06)
--   [week07]( week07)
--   [week08]( week08)
--   [week09]( week09)
--   [week10]( week10)
--   [week11]( week11)
--   [week12]( week12)
--   [week13]( week13)
--   [week14]( week14)
--   [week15]( week15)
--   [week16]( week16)
+        - Integers
+        - Sign Extension
+        - Two's complement arithmetic
+        - Examples
+        - Extended precision arithmetic
+
+-   ## [Week 4](week04)
+    
+    ### Basic Assembly Language
+
+        - Control Structures
+
+            - Comparisions
+            - Branch Instructions
+            - The loop Instructions
+
+        - Translating Standard Control Structures
+
+            - If Statements
+            - While loops
+            - Do while loops
+
+-   ## [Week 5](week05)
+-   ## [Week 6](week06)
+-   ## [Week 7](week07)
+-   ## [Week 8](week08)
+-   ## [Week 9](week09)
+-   ## [Week 10](week10)
+-   ## [Week 11](week11)
+-   ## [Week 12](week12)
+-   ## [Week 13](week13)
+-   ## [Week 14](week14)
+-   ## [Week 15](week15)
+-   ## [Week 16](week16)
