@@ -14,17 +14,17 @@
 
     ### Basic Assembly Language
 
--       Integers
--       Sign Extension
--       Two's complement arithmetic
--       Examples
--       Extended precision arithmetic
+  - Integers
+  - Sign Extension
+  - Two's complement arithmetic
+  - Examples
+  - Extended precision arithmetic
 
 -   ## [Week 4](week04)
     
     ### Basic Assembly Language
 
-        - Control Structures
+  - Control Structures
 
             - Comparisions
             - Branch Instructions
@@ -48,3 +48,4 @@
 -   ## [Week 14](week14)
 -   ## [Week 15](week15)
 -   ## [Week 16](week16)
+
