@@ -2,15 +2,15 @@
 
 # Course Content
 
--   [## Week 1]( week01)
+-   ## [Week 1](week01)
 
-    ## First week -- Introduction
+    ### First week -- Introduction
 
--   [week02]( week02)
+-   ## [Week 2](week02)
 
     ## Second week -- Shell Tutorial and vim tutorial
 
--   [week03]( week03)
+-   ## [Week 3](week03)
 
     ## Basic Assembly Language
 
