@@ -24,17 +24,14 @@
     
     ### Basic Assembly Language
 
-  - Control Structures
-
-            - Comparisions
-            - Branch Instructions
-            - The loop Instructions
-
-        - Translating Standard Control Structures
-
-            - If Statements
-            - While loops
-            - Do while loops
+    - Control Structures
+      - Comparisons
+      - Branch Instructions
+      - The loop Instructions
+    - Translating Standard Control Structures
+      - If Statements
+      - While loops
+      - Do while loops
 
 -   ## [Week 5](week05)
 -   ## [Week 6](week06)
