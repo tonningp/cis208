@@ -31,7 +31,10 @@
 
         This jump allows control to move to another code segment. This is a very rare thing to do in 386 protected mode.
 
+    ![alt text](https://i.imgur.com/vh0bzmT.png "Table from textbook")
+
   - The loop Instructions
+
 - Translating Standard Control Structures
   - If Statements
   - While loops
