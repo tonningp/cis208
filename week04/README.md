@@ -3,9 +3,9 @@
 - Control Structures
   - [Comparisons](cmp)
 
-      **The FLAGS register**
+      **The [FLAGS](https://en.wikipedia.org/wiki/FLAGS_register#FLAGS) register**
 
-      For unsigned integers, there are two flags (bits in the FLAGS register) that are important: the zero (**ZF**) and carry (**CF**) flags. The zero flag is set (1) if the resulting difference would be zero. The carry flag is used as a borrow flag for subtraction.
+      For unsigned integers, there are two flags (bits in the [FLAGS](https://en.wikipedia.org/wiki/FLAGS_register#FLAGS) register) that are important: the zero (**ZF**) and carry (**CF**) flags. The zero flag is set (1) if the resulting difference would be zero. The carry flag is used as a borrow flag for subtraction.
 
   - [Branch Instructions](jmp)
 
