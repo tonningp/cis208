@@ -3,12 +3,15 @@
 # Course Content
 
 -   [week01]( week01)
+
     This is some content for week01
 
     This is more content for week01
 
 -   [week02]( week02)
+
     This is some content for week02
+
 -   [week03]( week03)
 -   [week04]( week04)
 -   [week05]( week05)
