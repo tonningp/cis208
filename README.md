@@ -14,11 +14,11 @@
 
     ### Basic Assembly Language
 
-        - Integers
-        - Sign Extension
-        - Two's complement arithmetic
-        - Examples
-        - Extended precision arithmetic
+-       Integers
+-       Sign Extension
+-       Two's complement arithmetic
+-       Examples
+-       Extended precision arithmetic
 
 -   ## [Week 4](week04)
     
