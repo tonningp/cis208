@@ -1,0 +1,71 @@
+     1                                  ; file: asm_main.asm
+     2                                  ;
+     3                                  ; An assembly function that repeated reads characters until newline is pressed
+     4                                  ; The function will keep on asking the user for the number until it is valid. 
+     5                                  ; 
+     6                                  
+     7                                  %include "asm_io.inc"
+     8                              <1> 	extern  read_int, print_int, print_string,print_hex
+     9                              <1> 	extern	read_char, print_char, print_nl
+    10                              <1> 	extern  sub_dump_regs, sub_dump_mem, sub_dump_math, sub_dump_stack
+    11                              <1> 
+    12                              <1> %macro 	dump_regs 1
+    13                              <1> 	push	  dword %1
+    14                              <1> 	call	  sub_dump_regs
+    15                              <1> %endmacro
+    16                              <1> 
+    17                              <1> 
+    18                              <1> ;
+    19                              <1> ; usage: dump_mem label, start-address, # paragraphs
+    20                              <1> %macro  dump_mem 3
+    21                              <1> 	push	 dword %1
+    22                              <1> 	push	 dword %2
+    23                              <1> 	push	 dword %3
+    24                              <1> 	call	 sub_dump_mem
+    25                              <1> %endmacro
+    26                              <1> 
+    27                              <1> %macro	dump_math 1
+    28                              <1> 	push	 dword %1
+    29                              <1> 	call	 sub_dump_math
+    30                              <1> %endmacro
+    31                              <1> 
+    32                              <1> %macro  dump_stack 3
+    33                              <1> 	push	 dword %3
+    34                              <1>         push     dword %2
+    35                              <1> 	push	 dword %1
+    36                              <1>         call     sub_dump_stack
+    37                              <1> %endmacro
+    38                                  
+    39                                  segment .data
+    40                                  ;
+    41                                  ; Output strings
+    42                                  ;
+    43 00000000 0A                      nl db 10  ; declare a constant for newline
+    44                                  
+    45                                  segment .bss
+    46 00000000 <res 00000100>          input:   resb 100H
+    47                                  
+    48                                  
+    49                                  segment .text
+    50                                          global  asm_main
+    51                                  asm_main:
+    52 00000000 C8000000                        enter   0,0             ;setup routine
+    53 00000004 60                              pusha
+    54                                  
+    55 00000005 BB[00000000]            	mov ebx,input		;start address of input buffer
+    56                                  
+    57                                  ; read characters until user enters a newline
+    58                                  do:
+    59 0000000A E8(00000000)            	call read_char		; defined in asm_io
+    60 0000000F 8803                    	mov  [ebx],al		; ebx is a pointer to the location of input
+    61 00000011 43                      	inc  ebx		; increment pointer value in ebx
+    62 00000012 3805[00000000]          	cmp  [nl],al		; compare the value at nl with al
+    63 00000018 75F0                    	jnz  do			; jump if al != 10
+    64                                  enddo:
+    65 0000001A B8[00000000]            	mov eax,input		; load address of the input
+    66 0000001F E8(00000000)            	call print_string	; print out the prompt
+    67                                  
+    68 00000024 61                              popa
+    69 00000025 B800000000                      mov     eax, 0            ; return back to C
+    70 0000002A C9                              leave                     
+    71 0000002B C3                              ret

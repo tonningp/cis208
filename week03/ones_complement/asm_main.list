@@ -1,0 +1,74 @@
+     1                                  ;
+     2                                  ; file: asm_main.asm
+     3                                  
+     4                                  %include "asm_io.inc"
+     5                              <1> 	extern  read_int, print_int, print_string
+     6                              <1> 	extern	read_char, print_char, print_nl
+     7                              <1> 	extern  sub_dump_regs, sub_dump_mem, sub_dump_math, sub_dump_stack
+     8                              <1> 
+     9                              <1> %macro 	dump_regs 1
+    10                              <1> 	push	  dword %1
+    11                              <1> 	call	  sub_dump_regs
+    12                              <1> %endmacro
+    13                              <1> 
+    14                              <1> 
+    15                              <1> ;
+    16                              <1> ; usage: dump_mem label, start-address, # paragraphs
+    17                              <1> %macro  dump_mem 3
+    18                              <1> 	push	 dword %1
+    19                              <1> 	push	 dword %2
+    20                              <1> 	push	 dword %3
+    21                              <1> 	call	 sub_dump_mem
+    22                              <1> %endmacro
+    23                              <1> 
+    24                              <1> %macro	dump_math 1
+    25                              <1> 	push	 dword %1
+    26                              <1> 	call	 sub_dump_math
+    27                              <1> %endmacro
+    28                              <1> 
+    29                              <1> %macro  dump_stack 3
+    30                              <1> 	push	 dword %3
+    31                              <1>         push     dword %2
+    32                              <1> 	push	 dword %1
+    33                              <1>         call     sub_dump_stack
+    34                              <1> %endmacro
+    35                                  ;
+    36                                  ; initialized data is put in the .data segment
+    37                                  ;
+    38                                  segment .data
+    39                                  ;DB, DW, DD, DQ, DT, DO, DY and DZ are used, much as in MASM, to declare initialized data in the output file. They can be invoked in a wide range of ways:
+    40                                  
+    41 00000000 0A000000                a      dd    10  ; a byte with the bit pattern 11111111b
+    42 00000004 02000000                b      dd    2  ; a byte with the bit pattern 11111110b
+    43 00000008 03000000                c      dd    3       ; a byte with the bit pattern 11111011b
+    44 0000000C 04000000                d      dd    4       ; a byte with the bit pattern 11111011b
+    45                                  
+    46                                  
+    47                                  ; uninitialized data is put in the .bss segment
+    48                                  ;
+    49                                  segment .bss
+    50                                  
+    51                                  ;
+    52                                  ; code is put in the .text segment
+    53                                  ;
+    54                                  segment .text
+    55                                          global  asm_main
+    56                                  asm_main:
+    57 00000000 C8000000                        enter   0,0               ; setup routine
+    58 00000004 60                              pusha
+    59                                  ; next print out result message as series of steps
+    60                                  
+    61 00000005 A1[00000000]                    mov     eax,[a]
+    62 0000000A 0305[04000000]                  add     eax,[b]
+    63 00000010 8B0D[08000000]                  mov     ecx,[c]
+    64 00000016 030D[0C000000]                  add     ecx,[d]
+    65 0000001C 29C8                            sub     eax,ecx
+    66                                  
+    67 0000001E E8(00000000)                    call print_int
+    68 00000023 E8(00000000)                    call print_nl
+    69 00000028 61                              popa
+    70 00000029 B800000000                      mov     eax, 0            ; return back to C
+    71 0000002E C9                              leave                     
+    72 0000002F C3                              ret
+    73                                  
+    74                                  

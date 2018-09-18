@@ -1,0 +1,68 @@
+     1                                  ;
+     2                                  ; file: asm_main.asm
+     3                                  
+     4                                  %include "asm_io.inc"
+     5                              <1> 	extern  read_int, print_int, print_string
+     6                              <1> 	extern	read_char, print_char, print_nl
+     7                              <1> 	extern  sub_dump_regs, sub_dump_mem, sub_dump_math, sub_dump_stack
+     8                              <1> 
+     9                              <1> %macro 	dump_regs 1
+    10                              <1> 	push	  dword %1
+    11                              <1> 	call	  sub_dump_regs
+    12                              <1> %endmacro
+    13                              <1> 
+    14                              <1> 
+    15                              <1> ;
+    16                              <1> ; usage: dump_mem label, start-address, # paragraphs
+    17                              <1> %macro  dump_mem 3
+    18                              <1> 	push	 dword %1
+    19                              <1> 	push	 dword %2
+    20                              <1> 	push	 dword %3
+    21                              <1> 	call	 sub_dump_mem
+    22                              <1> %endmacro
+    23                              <1> 
+    24                              <1> %macro	dump_math 1
+    25                              <1> 	push	 dword %1
+    26                              <1> 	call	 sub_dump_math
+    27                              <1> %endmacro
+    28                              <1> 
+    29                              <1> %macro  dump_stack 3
+    30                              <1> 	push	 dword %3
+    31                              <1>         push     dword %2
+    32                              <1> 	push	 dword %1
+    33                              <1>         call     sub_dump_stack
+    34                              <1> %endmacro
+    35                                  ;
+    36                                  ; initialized data is put in the .data segment
+    37                                  ;
+    38                                  segment .data
+    39                                  
+    40                                  
+    41                                  ; uninitialized data is put in the .bss segment
+    42                                  ;
+    43                                  segment .bss
+    44                                  
+    45                                  ;
+    46                                  ; code is put in the .text segment
+    47                                  ;
+    48                                  segment .text
+    49                                          global  asm_main
+    50                                  asm_main:
+    51 00000000 C8000000                        enter   0,0               ; setup routine
+    52 00000004 60                              pusha
+    53                                  
+    54 00000005 B8E8040000              	mov eax,1256
+    55 0000000A 99                      	cdq
+    56 0000000B B90A000000              	mov ecx,10
+    57 00000010 F7F9                    	idiv ecx
+    58 00000012 E8(00000000)            	call print_int
+    59 00000017 E8(00000000)            	call print_nl
+    60 0000001C 89D0                    	mov eax,edx
+    61 0000001E E8(00000000)            	call print_int
+    62 00000023 E8(00000000)            	call print_nl
+    63 00000028 61                              popa
+    64 00000029 B800000000                      mov     eax, 0            ; return back to C
+    65 0000002E C9                              leave                     
+    66 0000002F C3                              ret
+    67                                  
+    68                                  

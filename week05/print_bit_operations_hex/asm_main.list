@@ -1,0 +1,80 @@
+     1                                  ; file: asm_main.asm
+     2                                  ;
+     3                                  ; An assembly function that repeatedly asks user for an r p or s for rock, paper scissors
+     4                                  ; The function will keep on asking the user for the number until it is valid. 
+     5                                  ; 
+     6                                  
+     7                                  %include "asm_io.inc"
+     8                              <1> 	extern  read_int, print_int, print_string,print_hex
+     9                              <1> 	extern	read_char, print_char, print_nl
+    10                              <1> 	extern  sub_dump_regs, sub_dump_mem, sub_dump_math, sub_dump_stack
+    11                              <1> 
+    12                              <1> %macro 	dump_regs 1
+    13                              <1> 	push	  dword %1
+    14                              <1> 	call	  sub_dump_regs
+    15                              <1> %endmacro
+    16                              <1> 
+    17                              <1> 
+    18                              <1> ;
+    19                              <1> ; usage: dump_mem label, start-address, # paragraphs
+    20                              <1> %macro  dump_mem 3
+    21                              <1> 	push	 dword %1
+    22                              <1> 	push	 dword %2
+    23                              <1> 	push	 dword %3
+    24                              <1> 	call	 sub_dump_mem
+    25                              <1> %endmacro
+    26                              <1> 
+    27                              <1> %macro	dump_math 1
+    28                              <1> 	push	 dword %1
+    29                              <1> 	call	 sub_dump_math
+    30                              <1> %endmacro
+    31                              <1> 
+    32                              <1> %macro  dump_stack 3
+    33                              <1> 	push	 dword %3
+    34                              <1>         push     dword %2
+    35                              <1> 	push	 dword %1
+    36                              <1>         call     sub_dump_stack
+    37                              <1> %endmacro
+    38                                  
+    39                                  segment .data
+    40                                  ;
+    41                                  ; Output strings
+    42                                  ;
+    43                                  
+    44                                  segment .bss
+    45                                  
+    46                                  
+    47                                  segment .text
+    48                                          global  asm_main
+    49                                  asm_main:
+    50 00000000 C8000000                        enter   0,0             ;setup routine
+    51 00000004 60                              pusha
+    52                                  
+    53 00000005 B800000000              	mov 	eax,0
+    54 0000000A 66B823C1                	mov 	ax, 01100000100100011B
+    55 0000000E 6683C808                	or 	ax,8
+    56 00000012 E8(00000000)            	call 	print_hex
+    57 00000017 E8(00000000)            	call 	print_nl
+    58 0000001C 6683E0DF                	and 	ax,0FFDFH
+    59 00000020 E8(00000000)            	call 	print_hex
+    60 00000025 E8(00000000)            	call 	print_nl
+    61 0000002A 66350080                	xor 	ax,8000H
+    62 0000002E E8(00000000)            	call 	print_hex
+    63 00000033 E8(00000000)            	call 	print_nl
+    64 00000038 660D000F                	or 	ax,0F00H
+    65 0000003C E8(00000000)            	call 	print_hex
+    66 00000041 E8(00000000)            	call 	print_nl
+    67 00000046 6683E0F0                	and 	ax,0FFF0H
+    68 0000004A E8(00000000)            	call 	print_hex
+    69 0000004F E8(00000000)            	call 	print_nl
+    70 00000054 66350FF0                	xor 	ax,0F00FH
+    71 00000058 E8(00000000)            	call 	print_hex
+    72 0000005D E8(00000000)            	call 	print_nl
+    73 00000062 6683F0FF                	xor 	ax,0FFFFH
+    74 00000066 E8(00000000)            	call 	print_hex
+    75 0000006B E8(00000000)            	call 	print_nl
+    76                                  
+    77 00000070 61                              popa
+    78 00000071 B800000000                      mov     eax, 0            ; return back to C
+    79 00000076 C9                              leave                     
+    80 00000077 C3                              ret

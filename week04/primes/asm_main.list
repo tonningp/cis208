@@ -1,0 +1,141 @@
+     1                                  ;
+     2                                  ; file: main_asm.asm
+     3                                  ; This program calculates prime numbers
+     4                                  ;
+     5                                  ; Works like the following C program:
+     6                                  ; #include <stdio.h>
+     7                                  ;
+     8                                  ;int main()
+     9                                  ;{
+    10                                  ;  unsigned guess;          /* current guess for prime      */
+    11                                  ;  unsigned factor;         /* possible factor of guess     */
+    12                                  ;  unsigned limit;          /* find primes up to this value */
+    13                                  ;
+    14                                  ;  printf("Find primes up to: ");
+    15                                  ;  scanf("%u", &limit);
+    16                                  ;
+    17                                  ;  printf("2\n");    /* treat first two primes as special case */
+    18                                  ;  printf("3\n");
+    19                                  ;
+    20                                  ;  guess = 5;        /* initial guess */
+    21                                  ;  while ( guess <= limit ) {
+    22                                  ;    /* look for a factor of guess */
+    23                                  ;    factor = 3;
+    24                                  ;    while ( factor*factor < guess && guess % factor != 0 )
+    25                                  ;      factor += 2;
+    26                                  ;    if ( guess % factor != 0 )
+    27                                  ;      printf("%d\n", guess);
+    28                                  ;    guess += 2;    /* only look at odd numbers */
+    29                                  ;  }
+    30                                  ;  return 0;
+    31                                  ;}
+    32                                  ;
+    33                                  
+    34                                  %include "asm_io.inc"
+    35                              <1> 	extern  read_int, print_int, print_string,print_hex
+    36                              <1> 	extern	read_char, print_char, print_nl
+    37                              <1> 	extern  sub_dump_regs, sub_dump_mem, sub_dump_math, sub_dump_stack
+    38                              <1> 
+    39                              <1> %macro 	dump_regs 1
+    40                              <1> 	push	  dword %1
+    41                              <1> 	call	  sub_dump_regs
+    42                              <1> %endmacro
+    43                              <1> 
+    44                              <1> 
+    45                              <1> ;
+    46                              <1> ; usage: dump_mem label, start-address, # paragraphs
+    47                              <1> %macro  dump_mem 3
+    48                              <1> 	push	 dword %1
+    49                              <1> 	push	 dword %2
+    50                              <1> 	push	 dword %3
+    51                              <1> 	call	 sub_dump_mem
+    52                              <1> %endmacro
+    53                              <1> 
+    54                              <1> %macro	dump_math 1
+    55                              <1> 	push	 dword %1
+    56                              <1> 	call	 sub_dump_math
+    57                              <1> %endmacro
+    58                              <1> 
+    59                              <1> %macro  dump_stack 3
+    60                              <1> 	push	 dword %3
+    61                              <1>         push     dword %2
+    62                              <1> 	push	 dword %1
+    63                              <1>         call     sub_dump_stack
+    64                              <1> %endmacro
+    65                                  
+    66                                  segment .data
+    67 00000000 46696E64207072696D-     Message         db      "Find primes up to: ", 0
+    68 00000009 657320757020746F3A-
+    69 00000012 2000               
+    70                                  
+    71                                  
+    72                                  segment .bss
+    73 00000000 <res 00000004>          Limit           resd    1               ; find primes up to this limit
+    74 00000004 <res 00000004>          Guess           resd    1               ; the current guess for prime
+    75                                  
+    76                                   
+    77                                  
+    78                                  segment .text
+    79                                          global  asm_main
+    80                                  asm_main:
+    81 00000000 C8000000                        enter   0,0               ; setup routine
+    82 00000004 60                              pusha
+    83                                  
+    84 00000005 B8[00000000]                    mov     eax,  Message
+    85 0000000A E8(00000000)                    call    print_string
+    86                                          
+    87 0000000F E8(00000000)                    call    read_int             ; scanf("%u", & limit );
+    88 00000014 A3[00000000]                    mov     [Limit], eax
+    89                                  
+    90 00000019 B802000000                      mov     eax, 2               ; printf("2\n");
+    91 0000001E E8(00000000)                    call    print_int
+    92 00000023 E8(00000000)                    call    print_nl
+    93 00000028 B803000000                      mov     eax, 3               ; printf("3\n");
+    94 0000002D E8(00000000)                    call    print_int
+    95 00000032 E8(00000000)                    call    print_nl
+    96                                  
+    97 00000037 C705[04000000]0500-             mov     dword [Guess], 5     ; Guess = 5;
+    98 0000003F 0000               
+    99                                  
+   100                                  while_limit:                         ; while ( Guess <= Limit )
+   101 00000041 A1[04000000]                    mov     eax,[Guess]
+   102 00000046 3B05[00000000]                  cmp     eax, [Limit]
+   103 0000004C 7749                            jnbe    end_while_limit      ; use jnbe since numbers are unsigned
+   104                                  
+   105 0000004E BB03000000                      mov     ebx, 3               ; ebx is factor = 3;
+   106                                  while_factor:
+   107 00000053 89D8                            mov     eax,ebx
+   108 00000055 F7E0                            mul     eax                  ; edx:eax = eax*eax
+   109 00000057 701E                            jo      end_while_factor     ; if answer won't fit in eax alone
+   110 00000059 3B05[04000000]                  cmp     eax, [Guess]
+   111 0000005F 7316                            jnb     end_while_factor     ; if !(factor*factor < guess)
+   112 00000061 A1[04000000]                    mov     eax,[Guess]
+   113 00000066 BA00000000                      mov     edx,0
+   114 0000006B F7F3                            div     ebx                  ; edx = edx:eax % ebx
+   115 0000006D 83FA00                          cmp     edx, 0
+   116 00000070 7405                            je      end_while_factor     ; if !(guess % factor != 0)
+   117                                  
+   118 00000072 83C302                          add     ebx,2                ; factor += 2;
+   119 00000075 EBDC                            jmp     while_factor
+   120                                  end_while_factor:
+   121 00000077 740F                            je      end_if               ; if !(guess % factor != 0)
+   122 00000079 A1[04000000]                    mov     eax,[Guess]          ; printf("%u\n")
+   123 0000007E E8(00000000)                    call    print_int
+   124 00000083 E8(00000000)                    call    print_nl
+   125                                  end_if:
+   126 00000088 A1[04000000]                    mov     eax,[Guess]
+   127 0000008D 83C002                          add     eax, 2
+   128 00000090 A3[04000000]                    mov     [Guess], eax         ; guess += 2
+   129 00000095 EBAA                            jmp     while_limit
+   130                                  end_while_limit:
+   131                                  
+   132 00000097 61                              popa
+   133 00000098 B800000000                      mov     eax, 0            ; return back to C
+   134 0000009D C9                              leave                     
+   135 0000009E C3                              ret
+   136                                  
+   137                                  
+   138                                  
+   139                                  
+   140                                  
+   141                                  

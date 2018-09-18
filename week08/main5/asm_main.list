@@ -1,0 +1,92 @@
+     1                                  
+     2                                  
+     3                                  ;
+     4                                  ; file: sub5.asm
+     5                                  ; Subprogram to C interfacing example
+     6                                  
+     7                                  %include "asm_io.inc"
+     8                              <1> 	extern  read_int, print_int, print_string
+     9                              <1> 	extern	read_char, print_char, print_nl
+    10                              <1> 	extern  sub_dump_regs, sub_dump_mem, sub_dump_math, sub_dump_stack
+    11                              <1> 
+    12                              <1> %macro 	dump_regs 1
+    13                              <1> 	push	  dword %1
+    14                              <1> 	call	  sub_dump_regs
+    15                              <1> %endmacro
+    16                              <1> 
+    17                              <1> 
+    18                              <1> ;
+    19                              <1> ; usage: dump_mem label, start-address, # paragraphs
+    20                              <1> %macro  dump_mem 3
+    21                              <1> 	push	 dword %1
+    22                              <1> 	push	 dword %2
+    23                              <1> 	push	 dword %3
+    24                              <1> 	call	 sub_dump_mem
+    25                              <1> %endmacro
+    26                              <1> 
+    27                              <1> %macro	dump_math 1
+    28                              <1> 	push	 dword %1
+    29                              <1> 	call	 sub_dump_math
+    30                              <1> %endmacro
+    31                              <1> 
+    32                              <1> %macro  dump_stack 3
+    33                              <1> 	push	 dword %3
+    34                              <1>         push     dword %2
+    35                              <1> 	push	 dword %1
+    36                              <1>         call     sub_dump_stack
+    37                              <1> %endmacro
+    38                                  
+    39                                  ; subroutine calc_sum
+    40                                  ; finds the sum of the integers 1 through n
+    41                                  ; Parameters:
+    42                                  ;   n    - what to sum up to (at [ebp + 8])
+    43                                  ;   sump - pointer to int to store sum into (at [ebp + 12])
+    44                                  ; pseudo C code:
+    45                                  ; void calc_sum( int n, int * sump )
+    46                                  ; {
+    47                                  ;   int i, sum = 0;
+    48                                  ;   for( i=1; i <= n; i++ )
+    49                                  ;     sum += i;
+    50                                  ;   *sump = sum;
+    51                                  ; }
+    52                                  ;
+    53                                  ; To assemble:
+    54                                  ; DJGPP:   nasm -f coff sub5.asm
+    55                                  ; Borland: nasm -f obj  sub5.asm
+    56                                  
+    57                                  segment .text
+    58                                          global  calc_sum
+    59                                  ;
+    60                                  ; local variable:
+    61                                  ;   sum at [ebp-4]
+    62                                  calc_sum:
+    63 00000000 C8040000                        enter   4,0               ; allocate room for sum on stack
+    64 00000004 53                              push    ebx               ; IMPORTANT!
+    65                                  
+    66 00000005 C745FC00000000                  mov     dword [ebp-4],0   ; sum = 0
+    67                                          dump_stack 1, 2, 4        ; print out stack from ebp-8 to ebp+16
+    68 0000000C 6A04                <1>  push dword %3
+    69 0000000E 6A02                <1>  push dword %2
+    70 00000010 6A01                <1>  push dword %1
+    71 00000012 E8(00000000)        <1>  call sub_dump_stack
+    72 00000017 B901000000                      mov     ecx, 1            ; ecx is i in pseudocode
+    73                                  for_loop:
+    74 0000001C 3B4D08                          cmp     ecx, [ebp+8]      ; cmp i and n
+    75 0000001F 7F06                            jnle    end_for           ; if not i <= n, quit
+    76                                  
+    77 00000021 014DFC                          add     [ebp-4], ecx      ; sum += i
+    78 00000024 41                              inc     ecx
+    79 00000025 EBF5                            jmp     short for_loop
+    80                                  
+    81                                  end_for:
+    82 00000027 8B5D0C                          mov     ebx, [ebp+12]     ; ebx = sump
+    83 0000002A 8B45FC                          mov     eax, [ebp-4]      ; eax = sum
+    84 0000002D 8903                            mov     [ebx], eax
+    85                                  
+    86 0000002F 5B                              pop     ebx               ; restore ebx
+    87 00000030 C9                              leave
+    88 00000031 C3                              ret
+    89                                  
+    90                                  
+    91                                  
+    92                                  

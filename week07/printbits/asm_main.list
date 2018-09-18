@@ -1,0 +1,97 @@
+     1                                  ;
+     2                                  ; file: asm_main.asm
+     3                                  
+     4                                  %include "asm_io.inc"
+     5                              <1> 	extern  read_int, print_int, print_string,print_hex
+     6                              <1> 	extern	read_char, print_char, print_nl
+     7                              <1>   extern  print_bin
+     8                              <1> 	extern  sub_dump_regs, sub_dump_mem, sub_dump_math, sub_dump_stack
+     9                              <1> 
+    10                              <1> %macro 	dump_regs 1
+    11                              <1> 	push	  dword %1
+    12                              <1> 	call	  sub_dump_regs
+    13                              <1> %endmacro
+    14                              <1> 
+    15                              <1> 
+    16                              <1> ;
+    17                              <1> ; usage: dump_mem label, start-address, # paragraphs
+    18                              <1> %macro  dump_mem 3
+    19                              <1> 	push	 dword %1
+    20                              <1> 	push	 dword %2
+    21                              <1> 	push	 dword %3
+    22                              <1> 	call	 sub_dump_mem
+    23                              <1> %endmacro
+    24                              <1> 
+    25                              <1> %macro	dump_math 1
+    26                              <1> 	push	 dword %1
+    27                              <1> 	call	 sub_dump_math
+    28                              <1> %endmacro
+    29                              <1> 
+    30                              <1> %macro  dump_stack 3
+    31                              <1> 	push	 dword %3
+    32                              <1>         push     dword %2
+    33                              <1> 	push	 dword %1
+    34                              <1>         call     sub_dump_stack
+    35                              <1> %endmacro
+    36                                  ;
+    37                                  ; initialized data is put in the .data segment
+    38                                  ;
+    39                                  segment .data
+    40 00000000 FFFECDAB                num1: dd 0xABCDFEFF
+    41                                  
+    42                                  ; uninitialized data is put in the .bss segment
+    43                                  ;
+    44                                  segment .bss
+    45                                  ;
+    46                                  ; code is put in the .text segment
+    47                                  ;
+    48                                  segment .text
+    49                                          global  asm_main
+    50                                  asm_main:
+    51 00000000 C8000000                        enter   0,0               ; setup routine
+    52 00000004 60                              pusha
+    53                                  ; next print out result message as series of steps
+    54 00000005 A1[00000000]            	mov 	eax,[num1]	
+    55 0000000A E8(00000000)            	call print_bin
+    56 0000000F E8(00000000)            	call print_nl
+    57 00000014 E8(00000000)            	call print_hex
+    58 00000019 E8(00000000)            	call print_nl
+    59                                  	dump_regs 1
+    60 0000001E 6A01                <1>  push dword %1
+    61 00000020 E8(00000000)        <1>  call sub_dump_regs
+    62                                  
+    63 00000025 C1E002                  	sal 	eax,2
+    64 00000028 E8(00000000)            	call print_bin
+    65 0000002D E8(00000000)            	call print_nl
+    66 00000032 E8(00000000)            	call print_hex
+    67 00000037 E8(00000000)            	call print_nl
+    68                                  	dump_regs 2
+    69 0000003C 6A02                <1>  push dword %1
+    70 0000003E E8(00000000)        <1>  call sub_dump_regs
+    71                                  
+    72 00000043 C1E802                  	shr 	eax,2
+    73 00000046 E8(00000000)            	call print_bin
+    74 0000004B E8(00000000)            	call print_nl
+    75                                  	dump_regs 3
+    76 00000050 6A03                <1>  push dword %1
+    77 00000052 E8(00000000)        <1>  call sub_dump_regs
+    78 00000057 E8(00000000)            	call print_hex
+    79 0000005C E8(00000000)            	call print_nl
+    80                                  	
+    81 00000061 66B823C1                	mov ax, 0x0C123
+    82 00000065 E8(00000000)            	call print_bin
+    83 0000006A E8(00000000)            	call print_nl
+    84 0000006F 66B831E8                	mov  ax, 0E831H
+    85 00000073 E8(00000000)            	call print_bin
+    86 00000078 E8(00000000)            	call print_nl
+    87                                  
+    88 0000007D 66B823C1                	mov ax, 0x0C123
+    89 00000081 660D31E8                	or  ax, 0E831H
+    90 00000085 E8(00000000)            	call print_bin
+    91 0000008A E8(00000000)            	call print_nl
+    92 0000008F 61                              popa
+    93 00000090 B800000000                      mov     eax, 0            ; return back to C
+    94 00000095 C9                              leave                     
+    95 00000096 C3                              ret
+    96                                  
+    97                                  

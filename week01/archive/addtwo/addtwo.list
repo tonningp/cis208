@@ -1,0 +1,17 @@
+     1                                  segment .data
+     2 00000000 0000                    sum dw 0
+     3                                  segment .bss
+     4                                  
+     5                                  segment .text
+     6                                  	global _start
+     7                                  _start:
+     8 00000000 90                      	nop			    ; no operation
+     9 00000001 B840E20100                      mov	eax,123456          ; store 123456 into register eax
+    10 00000006 83C014                          add 	eax,20		    ; add 10 to the number that  is currently in eax
+    11 00000009 A3[00000000]            	mov	[sum],eax
+    12 0000000E B801000000                      mov eax,1
+    13 00000013 BB00000000                      mov ebx,0
+    14 00000018 CD80                            int 80H			 ;exit the program
+    15                                  
+    16                                  
+    17                                  

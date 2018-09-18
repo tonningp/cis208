@@ -1,0 +1,7 @@
+90                      	nop			; no operation
+B80A000000                      mov	eax,10          ; store 10 into register eax
+83C014                          add 	eax,20		; add 20 to the number that  is currently in eax
+A3[00000000]            	mov	[sum],eax
+B801000000                      mov eax,1
+BB00000000                      mov ebx,0
+CD80                            int 80H			 ;exit the program

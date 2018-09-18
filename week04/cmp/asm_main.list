@@ -1,0 +1,75 @@
+     1                                  ;
+     2                                  ; file: math.asm
+     3                                  ; This program demonstrates how the integer multiplication and division
+     4                                  ; instructions work.
+     5                                  ;
+     6                                  ; To create executable:
+     7                                  ; nasm -f coff math.asm
+     8                                  ; gcc -o math math.o driver.c asm_io.o
+     9                                  
+    10                                  %include "asm_io.inc"
+    11                              <1> 	extern  read_int, print_int, print_string,print_hex
+    12                              <1> 	extern	read_char, print_char, print_nl
+    13                              <1> 	extern  sub_dump_regs, sub_dump_mem, sub_dump_math, sub_dump_stack
+    14                              <1> 
+    15                              <1> %macro 	dump_regs 1
+    16                              <1> 	push	  dword %1
+    17                              <1> 	call	  sub_dump_regs
+    18                              <1> %endmacro
+    19                              <1> 
+    20                              <1> 
+    21                              <1> ;
+    22                              <1> ; usage: dump_mem label, start-address, # paragraphs
+    23                              <1> %macro  dump_mem 3
+    24                              <1> 	push	 dword %1
+    25                              <1> 	push	 dword %2
+    26                              <1> 	push	 dword %3
+    27                              <1> 	call	 sub_dump_mem
+    28                              <1> %endmacro
+    29                              <1> 
+    30                              <1> %macro	dump_math 1
+    31                              <1> 	push	 dword %1
+    32                              <1> 	call	 sub_dump_math
+    33                              <1> %endmacro
+    34                              <1> 
+    35                              <1> %macro  dump_stack 3
+    36                              <1> 	push	 dword %3
+    37                              <1>         push     dword %2
+    38                              <1> 	push	 dword %1
+    39                              <1>         call     sub_dump_stack
+    40                              <1> %endmacro
+    41                                  
+    42                                  segment .data
+    43                                  ;
+    44                                  ; Output strings
+    45                                  ;
+    46 00000000 456E7465722061206E-     prompt          db    "Enter a number: ", 0
+    47 00000009 756D6265723A2000   
+    48                                  
+    49                                  segment .bss
+    50 00000000 <res 00000004>          input   resd 1
+    51                                  
+    52                                  
+    53                                  segment .text
+    54                                          global  asm_main
+    55                                  asm_main:
+    56 00000000 C8000000                        enter   0,0               ; setup routine
+    57 00000004 60                              pusha
+    58                                  
+    59                                  
+    60                                  b1:
+    61 00000005 B814000000              	mov eax,20
+    62 0000000A BB0A000000              	mov ebx,10
+    63                                  
+    64 0000000F 39D8                    	cmp eax,ebx
+    65                                  b2:
+    66 00000011 61                              popa
+    67 00000012 B800000000                      mov     eax, 0            ; return back to C
+    68 00000017 C9                              leave                     
+    69 00000018 C3                              ret
+    70                                  
+    71                                  
+    72                                  
+    73                                  
+    74                                  
+    75                                  

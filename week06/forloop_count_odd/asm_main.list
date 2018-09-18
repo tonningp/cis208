@@ -1,0 +1,99 @@
+     1                                  ; file: asm_main.asm
+     2                                  ;
+     3                                  ; 
+     4                                  
+     5                                  %include "asm_io.inc"
+     6                              <1> 	extern  read_int, print_int, print_string,print_hex
+     7                              <1> 	extern	read_char, print_char, print_nl
+     8                              <1> 	extern  sub_dump_regs, sub_dump_mem, sub_dump_math, sub_dump_stack
+     9                              <1> 
+    10                              <1> %macro 	dump_regs 1
+    11                              <1> 	push	  dword %1
+    12                              <1> 	call	  sub_dump_regs
+    13                              <1> %endmacro
+    14                              <1> 
+    15                              <1> 
+    16                              <1> ;
+    17                              <1> ; usage: dump_mem label, start-address, # paragraphs
+    18                              <1> %macro  dump_mem 3
+    19                              <1> 	push	 dword %1
+    20                              <1> 	push	 dword %2
+    21                              <1> 	push	 dword %3
+    22                              <1> 	call	 sub_dump_mem
+    23                              <1> %endmacro
+    24                              <1> 
+    25                              <1> %macro	dump_math 1
+    26                              <1> 	push	 dword %1
+    27                              <1> 	call	 sub_dump_math
+    28                              <1> %endmacro
+    29                              <1> 
+    30                              <1> %macro  dump_stack 3
+    31                              <1> 	push	 dword %3
+    32                              <1>         push     dword %2
+    33                              <1> 	push	 dword %1
+    34                              <1>         call     sub_dump_stack
+    35                              <1> %endmacro
+    36                                  
+    37                                  segment .data
+    38 00000000 456E74657220613A00      s1: db "Enter a:",0
+    39 00000009 456E74657220623A00      s2: db "Enter b:",0
+    40                                  
+    41 00000012 6576656E00              evenlabel: db "even",0
+    42 00000017 6F646400                oddlabel: db "odd",0
+    43                                  
+    44                                  
+    45                                  segment .bss
+    46 00000000 <res 00000001>          a: resb 1
+    47 00000001 <res 00000001>          b: resb 1
+    48                                  
+    49                                  segment .text
+    50                                          global  asm_main
+    51                                  asm_main:
+    52 00000000 C8000000                        enter   0,0             ;setup routine
+    53 00000004 60                              pusha
+    54 00000005 B8[00000000]            	mov eax,s1
+    55 0000000A E8(00000000)            	call print_string
+    56 0000000F B800000000              	mov eax,0
+    57 00000014 E8(00000000)            	call read_int
+    58 00000019 A2[00000000]            	mov [a],al
+    59 0000001E B8[09000000]            	mov eax,s2
+    60 00000023 E8(00000000)            	call print_string
+    61 00000028 B800000000              	mov eax,0
+    62 0000002D E8(00000000)            	call read_int
+    63                                  
+    64                                  
+    65                                  
+    66 00000032 A2[01000000]            	mov [b],al
+    67                                  
+    68 00000037 B800000000              	mov eax,0
+    69 0000003C A0[00000000]            	mov al,[a]
+    70                                  
+    71 00000041 D1E8                    	shr eax,1
+    72 00000043 7311                    	jnc even
+    73                                  odd:
+    74 00000045 B8[17000000]            	mov eax,oddlabel
+    75 0000004A E8(00000000)            	call print_string
+    76 0000004F E8(00000000)            	call print_nl
+    77 00000054 EB0F                    	jmp end
+    78                                  even:
+    79 00000056 B8[12000000]            	mov eax,evenlabel
+    80 0000005B E8(00000000)            	call print_string
+    81 00000060 E8(00000000)            	call print_nl
+    82                                  end:
+    83                                  
+    84                                  ;	mov eax,0
+    85                                  ;	mov eax,[a]
+    86                                  ;	call print_int
+    87                                  ;	call print_nl
+    88                                  ;	mov eax,0
+    89                                  ;	mov al,[b]
+    90                                  ;	call print_int
+    91                                  ;	call print_nl
+    92                                  
+    93                                  ;lp:
+    94                                  ;	loop 	lp
+    95                                  
+    96 00000065 61                              popa
+    97 00000066 B800000000                      mov     eax, 0            ; return back to C
+    98 0000006B C9                              leave                     
+    99 0000006C C3                              ret

@@ -1,0 +1,66 @@
+     1                                  ; file: asm_main.asm
+     2                                  ;
+     3                                  ; An assembly function that repeatedly asks user for an r p or s for rock, paper scissors
+     4                                  ; The function will keep on asking the user for the number until it is valid. 
+     5                                  ; 
+     6                                  
+     7                                  %include "asm_io.inc"
+     8                              <1> 	extern  read_int, print_int, print_string,print_hex
+     9                              <1> 	extern	read_char, print_char, print_nl
+    10                              <1> 	extern  sub_dump_regs, sub_dump_mem, sub_dump_math, sub_dump_stack
+    11                              <1> 
+    12                              <1> %macro 	dump_regs 1
+    13                              <1> 	push	  dword %1
+    14                              <1> 	call	  sub_dump_regs
+    15                              <1> %endmacro
+    16                              <1> 
+    17                              <1> 
+    18                              <1> ;
+    19                              <1> ; usage: dump_mem label, start-address, # paragraphs
+    20                              <1> %macro  dump_mem 3
+    21                              <1> 	push	 dword %1
+    22                              <1> 	push	 dword %2
+    23                              <1> 	push	 dword %3
+    24                              <1> 	call	 sub_dump_mem
+    25                              <1> %endmacro
+    26                              <1> 
+    27                              <1> %macro	dump_math 1
+    28                              <1> 	push	 dword %1
+    29                              <1> 	call	 sub_dump_math
+    30                              <1> %endmacro
+    31                              <1> 
+    32                              <1> %macro  dump_stack 3
+    33                              <1> 	push	 dword %3
+    34                              <1>         push     dword %2
+    35                              <1> 	push	 dword %1
+    36                              <1>         call     sub_dump_stack
+    37                              <1> %endmacro
+    38                                  
+    39                                  segment .data
+    40                                  ;
+    41                                  ; Output strings
+    42                                  ;
+    43                                  
+    44                                  segment .bss
+    45                                  
+    46                                  
+    47                                  segment .text
+    48                                          global  asm_main
+    49                                  asm_main:
+    50 00000000 C8000000                        enter   0,0             ;setup routine
+    51 00000004 60                              pusha
+    52                                  
+    53 00000005 B800000000              	mov 	eax,0
+    54 0000000A B864000000              	mov 	eax, 64H
+    55 0000000F BB0F000000              	mov 	ebx, 0000000FH
+    56 00000014 21C3                    	and 	ebx,eax
+    57 00000016 E8(00000000)            	call 	print_int
+    58 0000001B E8(00000000)            	call 	print_nl
+    59 00000020 89D8                    	mov 	eax,ebx
+    60 00000022 E8(00000000)            	call 	print_int
+    61 00000027 E8(00000000)            	call 	print_nl
+    62                                  
+    63 0000002C 61                              popa
+    64 0000002D B800000000                      mov     eax, 0            ; return back to C
+    65 00000032 C9                              leave                     
+    66 00000033 C3                              ret

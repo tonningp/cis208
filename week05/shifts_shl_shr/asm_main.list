@@ -1,0 +1,74 @@
+     1                                  ; file: asm_main.asm
+     2                                  ;
+     3                                  ; An assembly function that repeatedly asks user for an r p or s for rock, paper scissors
+     4                                  ; The function will keep on asking the user for the number until it is valid. 
+     5                                  ; 
+     6                                  
+     7                                  %include "asm_io.inc"
+     8                              <1> 	extern  read_int, print_int, print_string,print_hex
+     9                              <1> 	extern	read_char, print_char, print_nl
+    10                              <1> 	extern  sub_dump_regs, sub_dump_mem, sub_dump_math, sub_dump_stack
+    11                              <1> 
+    12                              <1> %macro 	dump_regs 1
+    13                              <1> 	push	  dword %1
+    14                              <1> 	call	  sub_dump_regs
+    15                              <1> %endmacro
+    16                              <1> 
+    17                              <1> 
+    18                              <1> ;
+    19                              <1> ; usage: dump_mem label, start-address, # paragraphs
+    20                              <1> %macro  dump_mem 3
+    21                              <1> 	push	 dword %1
+    22                              <1> 	push	 dword %2
+    23                              <1> 	push	 dword %3
+    24                              <1> 	call	 sub_dump_mem
+    25                              <1> %endmacro
+    26                              <1> 
+    27                              <1> %macro	dump_math 1
+    28                              <1> 	push	 dword %1
+    29                              <1> 	call	 sub_dump_math
+    30                              <1> %endmacro
+    31                              <1> 
+    32                              <1> %macro  dump_stack 3
+    33                              <1> 	push	 dword %3
+    34                              <1>         push     dword %2
+    35                              <1> 	push	 dword %1
+    36                              <1>         call     sub_dump_stack
+    37                              <1> %endmacro
+    38                                  
+    39                                  segment .data
+    40                                  ;
+    41                                  ; Output strings
+    42                                  ;
+    43 00000000 03                      num1: db 0x3
+    44                                  
+    45                                  segment .bss
+    46 00000000 <res 00000100>          input:   resb 100H
+    47                                  
+    48                                  
+    49                                  segment .text
+    50                                          global  asm_main
+    51                                  asm_main:
+    52 00000000 C8000000                        enter   0,0             ;setup routine
+    53 00000004 60                              pusha
+    54                                  
+    55 00000005 B905000000              	mov 	ecx,5		; set the counter to 5
+    56 0000000A B800000000              	mov 	eax,0
+    57 0000000F A0[00000000]            	mov 	al,[num1]	; set lower byte to 1
+    58                                  loop1:
+    59 00000014 D0E0                    	shl	al,1	
+    60 00000016 E8(00000000)            	call	print_int
+    61 0000001B E8(00000000)            	call 	print_nl
+    62 00000020 E2F2                    	loop 	loop1
+    63                                  
+    64 00000022 B905000000              	mov 	ecx,5		; set the counter to 5
+    65                                  loop2:
+    66 00000027 D0E8                    	shr	al,1	
+    67 00000029 E8(00000000)            	call	print_int
+    68 0000002E E8(00000000)            	call 	print_nl
+    69 00000033 E2F2                    	loop 	loop2
+    70                                  
+    71 00000035 61                              popa
+    72 00000036 B800000000                      mov     eax, 0            ; return back to C
+    73 0000003B C9                              leave                     
+    74 0000003C C3                              ret

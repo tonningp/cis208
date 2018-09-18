@@ -1,0 +1,71 @@
+     1                                  ; file: asm_main.asm
+     2                                  ;
+     3                                  ; 
+     4                                  
+     5                                  %include "asm_io.inc"
+     6                              <1> 	extern  read_int, print_int, print_string,print_hex
+     7                              <1> 	extern	read_char, print_char, print_nl
+     8                              <1> 	extern  sub_dump_regs, sub_dump_mem, sub_dump_math, sub_dump_stack
+     9                              <1> 
+    10                              <1> %macro 	dump_regs 1
+    11                              <1> 	push	  dword %1
+    12                              <1> 	call	  sub_dump_regs
+    13                              <1> %endmacro
+    14                              <1> 
+    15                              <1> 
+    16                              <1> ;
+    17                              <1> ; usage: dump_mem label, start-address, # paragraphs
+    18                              <1> %macro  dump_mem 3
+    19                              <1> 	push	 dword %1
+    20                              <1> 	push	 dword %2
+    21                              <1> 	push	 dword %3
+    22                              <1> 	call	 sub_dump_mem
+    23                              <1> %endmacro
+    24                              <1> 
+    25                              <1> %macro	dump_math 1
+    26                              <1> 	push	 dword %1
+    27                              <1> 	call	 sub_dump_math
+    28                              <1> %endmacro
+    29                              <1> 
+    30                              <1> %macro  dump_stack 3
+    31                              <1> 	push	 dword %3
+    32                              <1>         push     dword %2
+    33                              <1> 	push	 dword %1
+    34                              <1>         call     sub_dump_stack
+    35                              <1> %endmacro
+    36                                  
+    37                                  segment .data
+    38                                  ;
+    39                                  ; Output strings
+    40                                  ;
+    41 00000000 0504030201              array1: db 5,4,3,2,1   ; array of bytes
+    42 00000005 050004000300020001-     array2: dw 5,4,3,2,1   ; array of bytes
+    43 0000000E 00                 
+    44                                  
+    45                                  segment .bss
+    46                                  
+    47                                  
+    48                                  segment .text
+    49                                          global  asm_main
+    50                                  asm_main:
+    51 00000000 C8000000                        enter   0,0             ;setup routine
+    52 00000004 60                              pusha
+    53 00000005 BB[00000000]            	mov ebx, array1         ; ebx = address of array1
+    54 0000000A 66BA0000                	mov dx,0		; dx will hold sum
+    55 0000000E B400                    	mov ah, 0		; ?
+    56 00000010 B905000000              	mov ecx,5
+    57                                  
+    58                                  lp:
+    59 00000015 8A03                    	mov 	al,[ebx]	; al = *ebx
+    60 00000017 6601C2                  	add 	dx,ax 		; dx += ax (not al!)
+    61 0000001A 43                      	inc 	ebx		; bx++
+    62 0000001B E2F8                    	loop 	lp
+    63 0000001D B800000000              	mov 	eax,0		; zero out eax
+    64 00000022 6689D0                  	mov 	ax,dx
+    65                                  b1:
+    66 00000025 E8(00000000)            	call	print_int
+    67 0000002A E8(00000000)            	call 	print_nl
+    68 0000002F 61                              popa
+    69 00000030 B800000000                      mov     eax, 0            ; return back to C
+    70 00000035 C9                              leave                     
+    71 00000036 C3                              ret

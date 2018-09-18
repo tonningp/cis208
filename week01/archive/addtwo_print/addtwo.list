@@ -1,0 +1,55 @@
+     1                                  ;nasm -f elf addtwo.o
+     2                                  ;ld -m elf_i386 -o addtwo hello.o
+     3                                  segment .data
+     4 00000000 303132333435363738-     	ruler: db 		"0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF",10
+     5 00000009 394142434445463031-
+     6 00000012 323334353637383941-
+     7 0000001B 424344454630313233-
+     8 00000024 343536373839414243-
+     9 0000002D 4445460A           
+    10                                  	rulerLen: equ $-ruler
+    11 00000031 2A2A2A2A2A2A2A2A2A-     	outputString: db 	"****************",10
+    12 0000003A 2A2A2A2A2A2A2A0A   
+    13                                  	outputLen: equ $-outputString
+    14 00000042 0A                      	divisor: db 10
+    15                                  segment .bss
+    16 00000000 <res 00000002>          	res resw 1
+    17 00000002 <res 00000002>          	res2 resw 1
+    18                                  segment .text
+    19                                  	global _start
+    20                                  _start:
+    21 00000000 90                      	nop				; no operation
+    22 00000001 B804000000              	mov	eax,4			; The system call for write (sys_write)
+    23 00000006 BB01000000              	mov	ebx,1			; File descriptor 1 - standard output
+    24 0000000B B9[00000000]            	mov	ecx,ruler		; 
+    25 00000010 BA31000000              	mov	edx,rulerLen		; length of string
+    26 00000015 CD80                    	int	80h			; print the ruler
+    27 00000017 66B80C00                        mov	ax,12          		; store 12 into register ax
+    28 0000001B 6683C01E                        add 	ax,30			; add 30 to the number that  is currently in eax
+    29 0000001F 66A3[00000000]          	mov	[res],ax		; move the value in ax to the res variable
+    30 00000025 66BB0A00                        mov 	bx,10			; store the divisor into bx
+    31 00000029 F6F3                    	div	bl
+    32 0000002B 80C430                  	add	ah,48			; convert the remainder to ASCII
+    33 0000002E 0430                    	add	al,48			; convert the quotient to ASCII
+    34 00000030 A2[31000000]            	mov	[outputString],al	; format the string with the value in the lower byte
+    35 00000035 8825[32000000]          	mov	[outputString+0x1],ah	; format the string with the value in the upper byte
+    36 0000003B B804000000              	mov	eax,4			; The system call for write (sys_write)
+    37 00000040 BB01000000              	mov	ebx,1			; File descriptor 1 - standard output
+    38 00000045 B9[31000000]            	mov	ecx,outputString	; 
+    39 0000004A BA11000000              	mov	edx,outputLen		; length of string
+    40 0000004F CD80                    	int	80h
+    41 00000051 66A1[00000000]          	mov	ax,[res]		; format the string with the value in the lower byte
+    42 00000057 A2[00000000]            	mov	[res],al		; format the string with the value in the lower byte of al
+    43 0000005C 66B80A00                	mov	ax,10
+    44 00000060 A2[01000000]            	mov	[res+0x1],al		; format the string with the value in the lower byte of al
+    45 00000065 B804000000              	mov	eax,4			; The system call for write (sys_write)
+    46 0000006A BB01000000              	mov	ebx,1			; File descriptor 1 - standard output
+    47 0000006F B9[00000000]            	mov	ecx,res			; 
+    48 00000074 BA02000000              	mov	edx,2			; length of string
+    49 00000079 CD80                    	int	80h
+    50 0000007B B801000000                      mov 	eax,1
+    51 00000080 BB00000000                      mov 	ebx,0
+    52 00000085 CD80                            int 	80H			 ;exit the program
+    53                                  
+    54                                  
+    55                                  

@@ -1,0 +1,127 @@
+     1                                  
+     2                                  
+     3                                  ;
+     4                                  ; file: sub1.asm
+     5                                  ; Subprogram example program
+     6                                  ;
+     7                                  ; To create executable:
+     8                                  ; Using djgpp:
+     9                                  ; nasm -f coff sub1.asm
+    10                                  ; gcc -o sub1 sub1.o driver.c asm_io.o
+    11                                  ;
+    12                                  
+    13                                  %include "asm_io.inc"
+    14                              <1> 	extern  read_int, print_int, print_string
+    15                              <1> 	extern	read_char, print_char, print_nl
+    16                              <1> 	extern  sub_dump_regs, sub_dump_mem, sub_dump_math, sub_dump_stack
+    17                              <1> 
+    18                              <1> %macro 	dump_regs 1
+    19                              <1> 	push	  dword %1
+    20                              <1> 	call	  sub_dump_regs
+    21                              <1> %endmacro
+    22                              <1> 
+    23                              <1> 
+    24                              <1> ;
+    25                              <1> ; usage: dump_mem label, start-address, # paragraphs
+    26                              <1> %macro  dump_mem 3
+    27                              <1> 	push	 dword %1
+    28                              <1> 	push	 dword %2
+    29                              <1> 	push	 dword %3
+    30                              <1> 	call	 sub_dump_mem
+    31                              <1> %endmacro
+    32                              <1> 
+    33                              <1> %macro	dump_math 1
+    34                              <1> 	push	 dword %1
+    35                              <1> 	call	 sub_dump_math
+    36                              <1> %endmacro
+    37                              <1> 
+    38                              <1> %macro  dump_stack 3
+    39                              <1> 	push	 dword %3
+    40                              <1>         push     dword %2
+    41                              <1> 	push	 dword %1
+    42                              <1>         call     sub_dump_stack
+    43                              <1> %endmacro
+    44                                  
+    45                                  segment .data
+    46 00000000 456E7465722061206E-     prompt1 db    "Enter a number: ", 0       ; don't forget nul terminator
+    47 00000009 756D6265723A2000   
+    48 00000011 456E74657220616E6F-     prompt2 db    "Enter another number: ", 0
+    49 0000001A 74686572206E756D62-
+    50 00000023 65723A2000         
+    51 00000028 596F7520656E746572-     outmsg1 db    "You entered ", 0
+    52 00000031 65642000           
+    53 00000035 20616E642000            outmsg2 db    " and ", 0
+    54 0000003B 2C207468652073756D-     outmsg3 db    ", the sum of these is ", 0
+    55 00000044 206F66207468657365-
+    56 0000004D 2069732000         
+    57                                  
+    58                                  segment .bss
+    59                                  ;
+    60                                  ; These labels refer to double words used to store the inputs
+    61                                  ;
+    62 00000000 <res 00000004>          input1  resd 1
+    63 00000004 <res 00000004>          input2  resd 1
+    64                                  
+    65                                   
+    66                                  
+    67                                  segment .text
+    68                                          global  asm_main
+    69                                  asm_main:
+    70 00000000 C8000000                        enter   0,0               ; setup routine
+    71 00000004 60                              pusha
+    72                                  
+    73 00000005 B8[00000000]                    mov     eax, prompt1      ; print out prompt
+    74 0000000A E8(00000000)                    call    print_string
+    75                                  
+    76 0000000F BB[00000000]                    mov     ebx, input1       ; store address of input1 into ebx
+    77 00000014 B9[1B000000]                    mov     ecx, ret1         ; store return address into ecx
+    78 00000019 EB69                            jmp     short get_int     ; read integer
+    79                                  ret1:
+    80 0000001B B8[11000000]                    mov     eax, prompt2      ; print out prompt
+    81 00000020 E8(00000000)                    call    print_string
+    82                                  
+    83 00000025 BB[04000000]                    mov     ebx, input2
+    84 0000002A B9[31000000]                    mov     ecx, $ + 7        ; ecx = this address + 7
+    85 0000002F EB53                            jmp     short get_int
+    86                                  
+    87 00000031 A1[00000000]                    mov     eax, [input1]     ; eax = dword at input1
+    88 00000036 0305[04000000]                  add     eax, [input2]     ; eax += dword at input2
+    89 0000003C 89C3                            mov     ebx, eax          ; ebx = eax
+    90                                  ;
+    91                                  ; next print out result message as series of steps
+    92                                  ;
+    93                                  
+    94 0000003E B8[28000000]                    mov     eax, outmsg1
+    95 00000043 E8(00000000)                    call    print_string      ; print out first message
+    96 00000048 A1[00000000]                    mov     eax, [input1]     
+    97 0000004D E8(00000000)                    call    print_int         ; print out input1
+    98 00000052 B8[35000000]                    mov     eax, outmsg2
+    99 00000057 E8(00000000)                    call    print_string      ; print out second message
+   100 0000005C A1[04000000]                    mov     eax, [input2]
+   101 00000061 E8(00000000)                    call    print_int         ; print out input2
+   102 00000066 B8[3B000000]                    mov     eax, outmsg3
+   103 0000006B E8(00000000)                    call    print_string      ; print out third message
+   104 00000070 89D8                            mov     eax, ebx
+   105 00000072 E8(00000000)                    call    print_int         ; print out sum (ebx)
+   106 00000077 E8(00000000)                    call    print_nl          ; print new-line
+   107                                  
+   108 0000007C 61                              popa
+   109 0000007D B800000000                      mov     eax, 0            ; return back to C
+   110 00000082 C9                              leave                     
+   111 00000083 C3                              ret
+   112                                  ;
+   113                                  ; subprogram get_int
+   114                                  ; Parameters:
+   115                                  ;   ebx - address of dword to store integer into
+   116                                  ;   ecx - address of instruction to return to
+   117                                  ; Notes:
+   118                                  ;   value of eax is destroyed
+   119                                  get_int:
+   120 00000084 E8(00000000)                    call    read_int
+   121 00000089 8903                            mov     [ebx], eax         ; store input into memory
+   122                                  	dump_regs 1
+   123 0000008B 6A01                <1>  push dword %1
+   124 0000008D E8(00000000)        <1>  call sub_dump_regs
+   125 00000092 FFE1                            jmp     ecx                ; jump back to caller
+   126                                  
+   127                                  
