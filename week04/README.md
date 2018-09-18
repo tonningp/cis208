@@ -5,7 +5,7 @@
 
       **The FLAGS register**
 
-      For unsigned integers, there are two flags (bits in the FLAGS register) that are important: the zero (ZF) and carry (CF) flags. The zero flag is set (1) if the resulting difference would be zero. The carry flag is used as a borrow flag for subtraction.
+      For unsigned integers, there are two flags (bits in the FLAGS register) that are important: the zero (**ZF**) and carry (**CF**) flags. The zero flag is set (1) if the resulting difference would be zero. The carry flag is used as a borrow flag for subtraction.
 
   - [Branch Instructions](jmp)
 
