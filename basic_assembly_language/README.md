@@ -1,6 +1,6 @@
 # Basic Assembly Language
  - [Adding Integers](add)
- - [One's Complement](ones_complement)
+ - [Negative Integers](negative_integers)
  - [Control Structures](control_structures)
  - [Integers](integers)
  - [Examples](examples)
