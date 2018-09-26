@@ -24,33 +24,27 @@ asm_main:
 
 
 b1:
-	mov eax,before
-	call print_string
-	mov eax,20
-	mov ebx,20
-	dump_regs 1
-	cmp eax,ebx
-	mov eax,after
-	call print_string
-	dump_regs 2
-	mov eax,before
-	call print_string
-	mov eax,10
-	mov ebx,20
-	dump_regs 3
-	cmp eax,ebx
-	mov eax,after
-	call print_string
-	dump_regs 4
-	mov eax,before
-	call print_string
-	mov eax,20
-	mov ebx,10
-	dump_regs 5
-	cmp eax,ebx
-	mov eax,after
-	call print_string
-	dump_regs 6
+        mov eax,before
+        call print_string
+        mov eax,20
+        mov ebx,20
+        dump_regs 1
+        cmp eax,ebx
+        dump_regs 2
+        mov eax,before
+        call print_string
+        mov eax,10
+        mov ebx,20
+        dump_regs 3
+        cmp eax,ebx
+        dump_regs 4
+        mov eax,before
+        call print_string
+        mov eax,20
+        mov ebx,10
+        dump_regs 5
+        cmp eax,ebx
+        dump_regs 6
 
         popa
         mov     eax, 0            ; return back to C
