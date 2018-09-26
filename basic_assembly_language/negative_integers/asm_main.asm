@@ -8,10 +8,11 @@
 segment .data
 ;DB, DW, DD, DQ, DT, DO, DY and DZ are used, much as in MASM, to declare initialized data in the output file. They can be invoked in a wide range of ways:
 
-a      dd    10  ; a byte with the bit pattern 11111111b
-b      dd    2  ; a byte with the bit pattern 11111110b
-c      dd    3       ; a byte with the bit pattern 11111011b
-d      dd    4       ; a byte with the bit pattern 11111011b
+a      db    11111111b       ; a byte with the bit pattern 11111111b
+b      db    11111110b       ; a byte with the bit pattern 11111110b
+c      db    11111011b       ; a byte with the bit pattern 11111011b
+d      db    11111011b       ; a byte with the bit pattern 11111011b
+;e      dd    0xFFFFFFFF  
 
 
 ; uninitialized data is put in the .bss segment
@@ -26,16 +27,12 @@ segment .text
 asm_main:
         enter   0,0               ; setup routine
         pusha
-; next print out result message as series of steps
-
-        mov     eax,[a]
-        add     eax,[b]
-        mov     ecx,[c]
-        add     ecx,[d]
-        sub     eax,ecx
-
-        call print_int
-        call print_nl
+        mov     eax,0
+        mov     al,[a]
+        add     al,[b]
+        mov     cl,[c]
+        add     cl,[d]
+        sub     al,cl
         popa
         mov     eax, 0            ; return back to C
         leave                     

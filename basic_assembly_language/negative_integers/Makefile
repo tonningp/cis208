@@ -18,7 +18,7 @@ edit:
 	vim asm_main.asm
 
 debug:
-	gdb ./main
+	gdb --quiet --command=asm_main.gdb ./main
 
 clean :
 	@rm *.o *.list main
