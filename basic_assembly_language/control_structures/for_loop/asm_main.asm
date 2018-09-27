@@ -11,10 +11,6 @@ segment .data
 ; Output strings
 ;
 
-yes_string db    "Yes",10, 0
-no_string db    "No",10, 0
-end_string db    "End",10, 0
-
 segment .bss
 input   resd 1
 

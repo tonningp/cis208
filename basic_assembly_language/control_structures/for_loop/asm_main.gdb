@@ -1,20 +1,8 @@
-# http://www.yolinux.com/TUTORIALS/GDB-Commands.html
-#
-set breakpoint pending on
-set pagination off
-# display/i $pc
+source settings.gdb
+source loop_print.gdb
 
-define loop_print
-set $total = $arg0
-set $i = 0
-   while($i<$total)
-     set $i = $i + 1
-     i r ecx
-     c
-   end
-end
 break loop_start
 run
 i r eflags
-loop_print 10
+call $loop_print($ecx,"i r ecx","i r eflags")
 q
