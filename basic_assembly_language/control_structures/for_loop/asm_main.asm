@@ -1,8 +1,6 @@
 ;
 ; file: math.asm
-; This program demonstrates how the integer multiplication and division
-; instructions work.
-;
+; This program demonstrates the loop ; instruction works.  
 
 %include "asm_io.inc"
 
