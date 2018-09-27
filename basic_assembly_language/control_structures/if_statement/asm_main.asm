@@ -33,7 +33,7 @@ asm_main:
 
 	mov eax,10	  	       ; literal 10 into eax,
 	mov ebx,20	          ; literal 20 into ebx
-
+b1:
 	cmp eax,ebx		  ; compare the 2 values
 	jb else			  ; if eax < ebx then jump to elseblock
 then:
