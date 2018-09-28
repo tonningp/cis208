@@ -1,17 +1,5 @@
-# The following is loop_print as a gdb macro
-define loop_print
-set $total = $arg0
-set $i = 0
-   while($i<$total)
-     set $i = $i + 1
-     i r ecx
-     c
-   end
-end
-
 # The following is a python class that will print the loop a specified number of times
-python
-
+import gdb
 class LoopPrint(gdb.Function):
     """Print a loop the specfied number of times"""
     def __init__(self):
@@ -27,5 +15,3 @@ class LoopPrint(gdb.Function):
         return count
 
 LoopPrint()
-
-end

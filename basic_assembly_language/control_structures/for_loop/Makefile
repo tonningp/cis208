@@ -23,7 +23,7 @@ idebug:
 	gdb ./main
 
 nidebug:
-	gdb --quiet --command=asm_main.gdb ./main
+	gdb --quiet --command=debug/asm_main.gdb ./main
 
 clean :
 	@rm *.o *.list main

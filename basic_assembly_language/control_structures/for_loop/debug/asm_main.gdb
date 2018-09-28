@@ -1,5 +1,5 @@
-source settings.gdb
-source loop_print.gdb
+source debug/settings.gdb
+source debug/loop_print.gdb
 
 break loop_start
 run

@@ -18,22 +18,17 @@ segment .text
 asm_main:
         enter   0,0               ; setup routine
         pusha
-		mov eax,0
-		mov ecx,10
+        mov eax,0
+        mov ecx,10
 loop_start:
-		add eax,ecx
-		loop loop_start
+        add eax,ecx
+        loop loop_start
 loop_end:
-		call print_int
-		call print_nl
+        call print_int
+        call print_nl
 
         popa
         mov     eax, 0            ; return back to C
         leave                     
         ret
-
-
-
-
-
 
