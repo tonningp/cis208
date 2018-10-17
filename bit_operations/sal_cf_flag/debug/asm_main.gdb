@@ -1,5 +1,6 @@
 # set up
 source debug/settings.gdb
+source debug/hello.py
 break asm_main
 
 # run the session
