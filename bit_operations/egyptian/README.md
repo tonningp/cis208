@@ -1,2 +1,2 @@
-# Egyptian multiplitcation
+# Egyptian multiplication
 Although machines often have efficient built-in instructions for performing arithmetic and logical operations, all these operations can be performed by combining the bitwise operators and zero-testing in various ways.[13] For example, here is a pseudocode implementation of ancient Egyptian multiplication showing how to multiply two arbitrary integers a and b (a greater than b) using only bitshifts and addition:
