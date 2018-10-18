@@ -11,7 +11,7 @@ segment .data
 ; Output strings
 ;
 num1: db 0
-num2: db 15
+num2: db 3
 
 segment .bss
 
@@ -25,7 +25,8 @@ asm_main:
 	mov 	eax,0
 	mov 	al,[num1]	; set lower byte to value of num1
 	mov 	bl,[num2]	; set lower byte to value of num2
-	or 	al,bl
+	or 	    al,bl
+b1:
 	call 	print_int
 	call 	print_nl
 

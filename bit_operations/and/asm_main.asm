@@ -10,8 +10,8 @@ segment .data
 ;
 ; Output strings
 ;
-num1: db 0
-num2: db 15
+num1: db 2 
+num2: db 2
 
 segment .bss
 
@@ -29,7 +29,7 @@ asm_main:
 	call 	print_int
 	call 	print_nl
 
-        popa
-        mov     eax, 0            ; return back to C
+    popa
+    mov     eax, 0            ; return back to C
         leave                     
         ret

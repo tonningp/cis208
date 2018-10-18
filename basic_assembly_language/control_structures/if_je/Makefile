@@ -16,14 +16,11 @@ run :
 edit:
 	vim asm_main.asm
 
-debug:
-	gdb ./main
-
 idebug:
-	gdb ./main
+	gdb ./main 
 
-nidbg:
-	gdb --quiet --command=debug/asm_main.gdb ./main
+nidebug:
+	gdb ./main --quiet --command=asm_main.gdb
 
 clean :
 	@rm *.o *.list main

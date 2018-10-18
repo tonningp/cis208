@@ -10,10 +10,8 @@ segment .data
 ;
 ; Output strings
 ;
-num1: db 0x3
 
 segment .bss
-input:   resb 100H
 
 
 segment .text
@@ -22,22 +20,13 @@ asm_main:
         enter   0,0             ;setup routine
         pusha
 
-	mov 	ecx,5		; set the counter to 5
-	mov 	eax,0
-	mov 	al,[num1]	; set lower byte to 1
-loop1:
-	shl	al,1	
-	call	print_int
-	call 	print_nl
-	loop 	loop1
-
-	mov 	ecx,5		; set the counter to 5
-loop2:
-	shr	al,1	
-	call	print_int
-	call 	print_nl
-	loop 	loop2
-
+        mov     eax,0xFFFFFFFF
+        mov 	ebx,0
+        shl     ah,1
+b1:
+        mov     al,2
+        mov     bl,1
+        adc     al,bl
         popa
         mov     eax, 0            ; return back to C
         leave                     

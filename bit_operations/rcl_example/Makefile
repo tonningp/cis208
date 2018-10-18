@@ -22,7 +22,7 @@ debug:
 idebug:
 	gdb ./main
 
-nidbg:
+nidbg: main
 	gdb --quiet --command=debug/asm_main.gdb ./main
 
 clean :

@@ -11,11 +11,19 @@ asm_main.o : asm_main.asm
 main : asm_io.o asm_main.o
 	gcc -m32 -o main asm_main.o asm_io.o main.c
 
-run : main
+run : 
 	./main
 edit:
 	vim asm_main.asm
+
 debug:
 	gdb ./main
+
+idebug:
+	gdb ./main
+
+nidbg:
+	gdb --quiet --command=debug/asm_main.gdb ./main
+
 clean :
 	@rm *.o *.list main
