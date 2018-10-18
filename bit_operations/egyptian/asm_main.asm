@@ -27,22 +27,17 @@ asm_main:
 ;    right shift b by 1
 ;return c
         mov     ecx,0
-		mov		eax,29
-        mov     ebx,25
-        imul    eax,eax,25
-        call    print_int
-        call    print_nl
         mov     eax,29
-		mov		ebx,25
+        mov     ebx,25
 while:
-		test	ebx,1
-		jz		endif
-		add		ecx,eax
+        test    ebx,1
+        jz      endif
+        add     ecx,eax
 endif:
-		shl		eax,1
-		shr		ebx,1
-		cmp		ebx,0
-		jne		while
+        shl     eax,1
+        shr     ebx,1
+        cmp     ebx,0
+        jne     while
 endwhile:
         mov     eax,ecx
         call    print_int
