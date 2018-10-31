@@ -1,9 +1,5 @@
-;
 ; file: sub1.asm
 ; Subprogram example program
-;
-
-
 %include "asm_io.inc"
 
 segment .data
@@ -14,13 +10,8 @@ outmsg2 db    " and ", 0
 outmsg3 db    ", the sum of these is ", 0
 
 segment .bss
-;
-; These labels refer to double words used to store the inputs
-;
 input1  resd 1
 input2  resd 1
-
- 
 
 segment .text
         global  asm_main
@@ -45,9 +36,6 @@ ret1:
         mov     eax, [input1]     ; eax = dword at input1
         add     eax, [input2]     ; eax += dword at input2
         mov     ebx, eax          ; ebx = eax
-;
-; next print out result message as series of steps
-;
 
         mov     eax, outmsg1
         call    print_string      ; print out first message
@@ -67,7 +55,6 @@ ret1:
         mov     eax, 0            ; return back to C
         leave                     
         ret
-;
 ; subprogram get_int
 ; Parameters:
 ;   ebx - address of dword to store integer into
@@ -78,5 +65,3 @@ get_int:
         call    read_int
         mov     [ebx], eax         ; store input into memory
         jmp     ecx                ; jump back to caller
-
-
