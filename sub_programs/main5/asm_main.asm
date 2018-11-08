@@ -1,5 +1,3 @@
-
-
 ;
 ; file: sub5.asm
 ; Subprogram to C interfacing example

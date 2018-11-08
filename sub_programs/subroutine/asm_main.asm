@@ -1,5 +1,3 @@
-
-
 ;
 ; file: sub1.asm
 ; Subprogram example program
@@ -30,6 +28,7 @@ input2  resd 1
 
 segment .text
         global  asm_main
+
 asm_main:
         enter   0,0               ; setup routine
         pusha
@@ -83,7 +82,6 @@ ret1:
 get_int:
         call    read_int
         mov     [ebx], eax         ; store input into memory
-	dump_regs 1
         jmp     ecx                ; jump back to caller
 
 

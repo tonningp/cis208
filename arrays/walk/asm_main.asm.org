@@ -1,0 +1,51 @@
+;
+; file: asm_main.asm
+
+%include "asm_io.inc"
+;
+; initialized data is put in the .data segment
+;
+segment .data
+
+array1: dw 1,2,3,4,5,6,7,8,9,10          ; 1 byte elements
+
+; uninitialized data is put in the .bss segment
+;
+segment .bss
+array5: resb 10
+array6: resw 10
+array7: resd 10
+
+;
+; code is put in the .text segment
+;
+segment .text
+        global  asm_main
+asm_main:
+        enter   0,0               ; setup routine
+        pusha
+; next print out result message as series of steps
+        ;mov     eax,0             ; clear out the eax register
+        ;xor     eax,eax
+        ;mov     eax,[array1]
+        
+        mov ebx,array1
+        mov cx,0
+        mov dx,9
+l1: 
+        mov ax,[bx]
+        call print_int
+        call print_nl
+        cmp cx,dx
+        ;dump_regs ebx
+        jz endwhile
+        inc cx 
+        inc ebx 
+        jmp while
+endwhile:
+        popa
+        mov     eax, 0            ; return back to C
+        leave                     
+        ret
+
+

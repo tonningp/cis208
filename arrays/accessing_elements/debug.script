@@ -1,0 +1,8 @@
+b b1
+b b2
+b b3
+r
+printf "al = %d\n",$al
+printf "ax = %d\n",$ax
+c
+q

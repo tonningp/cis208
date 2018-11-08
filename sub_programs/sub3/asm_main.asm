@@ -1,17 +1,7 @@
-
-
 ;
 ; file: sub3.asm
 ; Subprogram example program
 ;
-; To create executable:
-; Using djgpp:
-; nasm -f coff sub3.asm
-; gcc -o sub1 sub3.o driver.c asm_io.o
-;
-; Using Borland C/C++
-; nasm -f obj sub3.asm
-; bcc32 sub3.obj driver.c asm_io.obj
 
 %include "asm_io.inc"
 
