@@ -26,14 +26,14 @@ segment .text
 asm_main:
         enter   0,0             ;setup routine
         pusha
-		mov		eax,array1
-		push    eax
-		mov		eax,10
-		push    eax
-		mov		eax,5
-		push    eax
-		call    scalar_mult	
-		add		esp,12
+	mov	eax,array1
+	push    eax
+	mov	eax,10
+	push    eax
+	mov	eax,5
+	push    eax
+	call    scalar_mult	
+	add	esp,12
 
         popa
         mov     eax, 0            ; return back to C
@@ -43,13 +43,12 @@ asm_main:
 scalar_mult:
         enter   0,0             ;setup routine
         pusha
-								; ebp + 16 is address of array	
-								; ebp + 12 is size of array	
-								; ebp + 8 is scalar
-		mov    eax,[ebp+8]
-
-		call   print_int
-        call   print_nl
+	; ebp + 16 is address of array	
+	; ebp + 12 is size of array	
+	; ebp + 8 is scalar
+	; add your code here
+	
+	
         popa
-		leave
-		ret
+	leave
+	ret
