@@ -1,5 +1,4 @@
 
-
 ;
 ; file: memory.asm
 ; This program illustrates how to use the string instructions
