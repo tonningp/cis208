@@ -1,5 +1,5 @@
 ;
-; file: sub1.asm
+; file: asm_main.asm
 ; Subprogram example program
 
 %include "asm_io.inc"
@@ -7,10 +7,10 @@
 segment .data
 print_format db "p1=%d,p2=%d,local1=%d,local2=%d",10,0
 segment .bss
-;
-; These labels refer to double words used to store the inputs
-;
 
+;
+; These defines refer to double words used to store the inputs
+;
 %define  p1 [ebp+8] 
 %define  p2 [ebp+12] 
 

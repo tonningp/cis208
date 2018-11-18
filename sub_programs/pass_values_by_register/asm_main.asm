@@ -1,5 +1,5 @@
 ;
-; file: sub1.asm
+; file: asm_main.asm
 ; Subprogram example program
 
 %include "asm_io.inc"
@@ -10,6 +10,7 @@ prompt2 db    "Enter another number: ", 0
 outmsg1 db    "You entered ", 0
 outmsg2 db    " and ", 0
 outmsg3 db    ", the sum of these is ", 0
+
 
 segment .bss
 ;

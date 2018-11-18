@@ -1,7 +1,7 @@
 
 
 ;
-; file: sub6.asm
+; file: asm_main.asm
 ; Subprogram to C interfacing example
 
 ; subroutine calc_sum
@@ -19,9 +19,6 @@
 ;   return sum;
 ; }
 ;
-; To assemble:
-; DJGPP:   nasm -f coff sub6.asm
-; Borland: nasm -f obj  sub6.asm
 
 segment .text
         global  calc_sum
