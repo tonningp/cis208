@@ -47,10 +47,13 @@ b1:
          movsx   ax,BYTE [a]
          movsx   bx,BYTE [b]
          sub     ax,bx
+         movsx   ax,BYTE [a]
+         movsx   bx,BYTE [a]
+         imul    bx        ; imul is used for signed integers
 ; Try with 32 bit register
          mov     eax,0x0   ; clear eax
          mov     ebx,0x0   ; clear ebx
-         movsx   eax,BYTE [a]
+         movsx   eax,BYTE [a] ; BYTE storage size is needed to indicate how much from address a needs to be loaded
          movsx   ebx,BYTE [b]
          add     eax,ebx
          movsx   eax,BYTE [a]

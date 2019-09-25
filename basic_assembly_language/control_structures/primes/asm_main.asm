@@ -38,8 +38,8 @@ Message         db      "Find primes up to: ", 0
 
 
 segment .bss
-Limit           resd    1               ; find primes up to this limit
-Guess           resd    1               ; the current guess for prime
+limit           resd    1               ; find primes up to this limit
+guess           resd    1               ; the current guess for prime
 
  
 
@@ -53,7 +53,7 @@ asm_main:
         call    print_string
         
         call    read_int             ; scanf("%u", & limit );
-        mov     [Limit], eax
+        mov     [limit], eax
 
         mov     eax, 2               ; printf("2\n");
         call    print_int
@@ -62,11 +62,11 @@ asm_main:
         call    print_int
         call    print_nl
 
-        mov     dword [Guess], 5     ; Guess = 5;
+        mov     dword [guess], 5     ; guess = 5;
 
-while_limit:                         ; while ( Guess <= Limit )
-        mov     eax,[Guess]
-        cmp     eax, [Limit]
+while_limit:                         ; while ( guess <= limit )
+        mov     eax,[guess]
+        cmp     eax, [limit]
         jnbe    end_while_limit      ; use jnbe since numbers are unsigned
 
         mov     ebx, 3               ; ebx is factor = 3;
@@ -74,9 +74,9 @@ while_factor:
         mov     eax,ebx
         mul     eax                  ; edx:eax = eax*eax
         jo      end_while_factor     ; if answer won't fit in eax alone
-        cmp     eax, [Guess]
+        cmp     eax, [guess]
         jnb     end_while_factor     ; if !(factor*factor < guess)
-        mov     eax,[Guess]
+        mov     eax,[guess]
         mov     edx,0
         div     ebx                  ; edx = edx:eax % ebx
         cmp     edx, 0
@@ -86,13 +86,13 @@ while_factor:
         jmp     while_factor
 end_while_factor:
         je      end_if               ; if !(guess % factor != 0)
-        mov     eax,[Guess]          ; printf("%u\n")
+        mov     eax,[guess]          ; printf("%u\n")
         call    print_int
         call    print_nl
 end_if:
-        mov     eax,[Guess]
+        mov     eax,[guess]
         add     eax, 2
-        mov     [Guess], eax         ; guess += 2
+        mov     [guess], eax         ; guess += 2
         jmp     while_limit
 end_while_limit:
 

@@ -1,6 +1,16 @@
 ;
 ; file: asm_main.asm
-; description: this file demonstrates simple compares
+;
+; For unsigned integers, there are two flags (bits in the FLAGS register)
+; that are important: the zero (ZF) and carry (CF) flags. The zero flag is
+; set (1) if the resulting difference would be zero. The carry flag is used as a
+; borrow flag for subtraction. Consider a comparison like:
+; cmp vleft, vright
+; The difference of vleft - vright is computed and the flags are set accordingly. If the difference of the of CMP is zero,
+; vleft = vright, then ZF is set
+; (i.e. 1) and the CF is unset (i.e. 0). If vleft > vright, then ZF is unset
+; and CF is unset (no borrow). If vleft < vright, then ZF is unset and CF
+; is set (borrow).
 ;
 
 %include "asm_io.inc"
@@ -24,27 +34,15 @@ asm_main:
 
 
 b1:
-        mov eax,before
-        call print_string
         mov eax,20
         mov ebx,20
-        dump_regs 1
         cmp eax,ebx
-        dump_regs 2
-        mov eax,before
-        call print_string
         mov eax,10
         mov ebx,20
-        dump_regs 3
         cmp eax,ebx
-        dump_regs 4
-        mov eax,before
-        call print_string
         mov eax,20
         mov ebx,10
-        dump_regs 5
         cmp eax,ebx
-        dump_regs 6
 
         popa
         mov     eax, 0            ; return back to C
