@@ -9,6 +9,9 @@ segment .data
 
 msg: db 'Hello',10,0
 num: db 20
+num1: dw 21
+num2: dd 22
+;num3: dq 23
 
 ; uninitialized data is put in the .bss segment
 ;
@@ -27,8 +30,17 @@ asm_main:
         mov     eax,msg
         call    print_string
 
+b1:
         mov     eax,0
-        mov     eax,[num]
+        mov     al,[num]
+        call    print_int
+        call    print_nl
+
+        mov     ax,[num1]
+        call    print_int
+        call    print_nl
+
+        mov     eax,[num2]
         call    print_int
         call    print_nl
 
