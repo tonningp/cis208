@@ -1,4 +1,7 @@
 ; file: asm_main.asm
+; description: Example of multiplication using ancient Egyptian multiplication algorithm:
+;  https://en.wikipedia.org/wiki/Ancient_Egyptian_multiplication
+
 ;
 ; 
 
@@ -19,18 +22,19 @@ segment .text
 asm_main:
         enter   0,0             ;setup routine
         pusha
-;c ← 0
-;while b ≠ 0
-;    if (b and 1) ≠ 0
-;        c ← c + a
+;c = 0
+;while b != 0
+;    if (b and 1) == 0
+;        c = c + a
 ;    left shift a by 1
 ;    right shift b by 1
 ;return c
+
         mov     ecx,0
-        mov     eax,29
-        mov     ebx,25
+        mov     eax,238
+        mov     ebx,13
 while:
-        test    ebx,1
+        test    ebx,0x1
         jz      endif
         add     ecx,eax
 endif:
