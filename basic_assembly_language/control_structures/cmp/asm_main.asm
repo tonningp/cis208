@@ -23,29 +23,21 @@ asm_main:
         pusha
 
 
+        mov eax,1
+        mov ebx,1
+        cmp eax,ebx
 b1:
-        mov eax,before
-        call print_string
-        mov eax,20
-        mov ebx,20
-        dump_regs 1
+
+        mov eax,1
+        mov ebx,2
         cmp eax,ebx
-        dump_regs 2
-        mov eax,before
-        call print_string
-        mov eax,10
-        mov ebx,20
-        dump_regs 3
-        cmp eax,ebx
-        dump_regs 4
-        mov eax,before
-        call print_string
+
+b2:
         mov eax,20
         mov ebx,10
-        dump_regs 5
         cmp eax,ebx
-        dump_regs 6
 
+b3:
         popa
         mov     eax, 0            ; return back to C
         leave                     

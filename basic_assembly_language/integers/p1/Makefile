@@ -16,5 +16,9 @@ run :
 
 edit:
 	vim asm_main.asm
+
+debug:
+	gdb --quiet --command=asm_main.gdb ./main
+
 clean :
 	@rm *.o *.list main
