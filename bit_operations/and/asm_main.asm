@@ -7,6 +7,7 @@
 %include "asm_io.inc"
 
 segment .data
+
 %define B0 0x1
 %define B1 0x2
 %define B2 0x4
@@ -46,8 +47,8 @@ segment .data
 ;
 ; Output strings
 ;
-num1: dd 25 
-num2: dd 2
+num1: dd 0xC123 
+num2: dd 0x82F6
 
 segment .bss
 
@@ -62,8 +63,13 @@ asm_main:
 	mov 	eax,[num1]	
 	mov 	ebx,B3	  
 	and 	eax,ebx
+
 	call 	print_int
 	call 	print_nl
+
+   mov   eax,[num1]
+   and   eax,B5
+b1:
 
     popa
     mov     eax, 0            ; return back to C

@@ -1,0 +1,8 @@
+b b1
+r
+i r
+ni
+ni
+c
+echo "Done debugging"
+q

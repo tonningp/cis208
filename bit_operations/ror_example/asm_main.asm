@@ -8,7 +8,7 @@ segment .data
 ;
 ; Output strings
 ;
-num1: db 0xf0
+num1: db 0xf
 
 segment .bss
 input:   resb 100H
@@ -22,11 +22,11 @@ asm_main:
         mov     eax,0x0
         mov     al,[num1]
 b1:
-        rol     al,1
-        rol     al,1
-        rol     al,1
-        rol     al,1
-        rol     al,1
+        ror     al,1
+        ror     al,1
+        ror     al,1
+        ror     al,1
+        ror     al,1
 b2:
         popa
         mov     eax, 0            ; return back to C

@@ -10,8 +10,8 @@ segment .data
 ;
 ; Output strings
 ;
-num1: dw  0xC123
-num2: dw  0x82F6
+num1: dw 0xC123
+num2: dw 0x82F6
 
 segment .bss
 
@@ -24,18 +24,14 @@ asm_main:
 
 	mov 	eax,0
 	mov 	ax,[num1]	; set lower byte to value of num1
-	mov 	bx,[num2]	; set lower byte to value of num2
-	or 	    ax,bx
+
+	neg 	ax
+
 b1:
-
-   xor   eax,eax
-   or    eax,0x8
-
-b2:
-
-	;call 	print_int
-	;call 	print_nl
-
+	call 	print_int
+	call 	print_nl
+    
+    xor     eax,eax
         popa
         mov     eax, 0            ; return back to C
         leave                     
