@@ -7,11 +7,6 @@
 ;
 segment .data
 
-msg: db 'Hello',10,0
-num: db 20
-num1: dw 21
-num2: dd 22
-;num3: dq 23
 
 ; uninitialized data is put in the .bss segment
 ;
@@ -26,23 +21,13 @@ asm_main:
         enter   0,0               ; setup routine
         pusha
 ; next print out result message as series of steps
-
-        mov     eax,msg
-        call    print_string
-
 b1:
-        mov     eax,0
-        mov     al,[num]
-        call    print_int
-        call    print_nl
-
-        mov     ax,[num1]
-        call    print_int
-        call    print_nl
-
-        mov     eax,[num2]
-        call    print_int
-        call    print_nl
+        mov   eax, 0x5   ; eax = 0x5, SF = 0
+;The CDQ (Convert Doubleword to Quadword) instruction extends the sign bit of EAX into the EDX register.
+        cdq              ; edx = 0x00000000
+        mov   eax, 0x5   ; eax = 0x5
+        neg   eax        ; eax = 0xFFFFFFFB, SF = 1
+        cdq              ; edx = 0xFFFFFFFF
 
         popa
         mov     eax, 0            ; return back to C
