@@ -5,7 +5,7 @@
 ; Subprogram to C interfacing example
 
 ; subroutine calc
-; finds the sum of the integers 1 through n
+; finds the sum of the integers from a to b
 ; Parameters:
 ;   n    - what to sum up to (at [ebp + 8])
 ; Return value:
@@ -38,18 +38,17 @@ calc:
 for_loop:
         cmp     ebx, [ebp+12]      ; cmp i and b  (b is [ebp+12]
         jnle    end_for           ; if not i <= b, quit
-b1:
 
         add     [ebp-4], ebx      ; sum += i
         inc     ebx
-        jmp     short for_loop
+        jmp     short for_loop   ; it's just a short jump
 
 end_for:
 
-        popa
+        popa                       ; restore the registers
         mov     eax,[ebp - 4]      ; this puts the local value sum in the eax register
-        mov     esp,ebp
-        pop     ebp
+        mov     esp,ebp            ; clean up the stack
+        pop     ebp                ; restore the return address
 
         ret
 
