@@ -30,10 +30,12 @@ asm_main:
         pusha
 
         mov     edx, 1            ; edx is 'i' in pseudo-code
+
 while_loop:
         push    edx               ; save i on stack
         push    dword input       ; push address on input on stack
-        call    get_int
+b1:
+        call    get_int          ; get_int is a subroutine in this file
         add     esp, 8            ; remove i and &input from stack
 
         mov     eax, [input]
@@ -68,7 +70,7 @@ segment .text
 get_int:
         push    ebp
         mov     ebp, esp
-
+b2:
         mov     eax, [ebp + 12]
         call    print_int
 
@@ -105,9 +107,6 @@ print_sum:
 
         pop     ebp
         ret
-
-
-
 
 
 

@@ -22,20 +22,21 @@ asm_main:
         pusha
 
 	mov eax,1256
+
 while:
-	cdq
-	dump_regs 1
-	mov ecx,10
-	idiv ecx
-	call print_int
-	call print_nl
-	mov ebx,eax
-	mov eax,edx
-	call print_int
-	call print_nl
-	mov eax,ebx
-	cmp eax,0
-	jnz while
+         cdq
+   ;      dump_regs 1
+         mov ecx,10
+         idiv ecx
+;         call print_int
+;         call print_nl
+         mov ebx,eax
+         mov eax,edx
+         call print_int
+         call print_nl
+         mov eax,ebx
+         cmp eax,0
+         jnz while
 
         popa
         mov     eax, 0            ; return back to C

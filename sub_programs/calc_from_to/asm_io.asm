@@ -103,9 +103,9 @@ read_int:
 	push	eax
 	push	dword int_format
 	call	_scanf
-   ; scanf("%i",&x);
 	pop	ecx
 	pop	ecx
+	
 	popf
 	popa
 	mov	eax, [ebp-4]

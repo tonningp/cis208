@@ -1,4 +1,4 @@
-
+%include "asm_io.inc"
 
 ;
 ; file: asm_main.asm
@@ -22,28 +22,36 @@
 
 segment .text
         global  calc_sum
+
 ;
 ; local variable:
 ;   sum at [ebp-4]
 calc_sum:
-        enter   4,0               ; make room for sum on stack
+        push    ebp
+        mov     ebp,esp
+        sub     esp,4
+        ;push    ebx
+        pusha
 
         mov     dword [ebp-4],0   ; sum = 0
-        mov     ecx, 1            ; ecx is i in pseudocode
+        mov     ebx, 1            ; ebx is i in pseudocode
+
 for_loop:
-        cmp     ecx, [ebp+8]      ; cmp i and n
+        cmp     ebx, [ebp+8]      ; cmp i and n
         jnle    end_for           ; if not i <= n, quit
 
-        add     [ebp-4], ecx      ; sum += i
-        inc     ecx
+        add     [ebp-4], ebx      ; sum += i
+        inc     ebx
         jmp     short for_loop
 
 end_for:
-        mov     eax, [ebp-4]      ; eax = sum
+        mov     ebx, [ebp+12]      ; ebx = the pointer to the first parameter
+        mov     eax,[ebp - 4]      ; this puts the local value sum in the eax register
+        mov     [ebx], eax         ; the pointer to the first parameter now has the sum
 
-        leave
+        popa
+        mov     esp,ebp
+        pop     ebp
+
         ret
-
-
-
 
