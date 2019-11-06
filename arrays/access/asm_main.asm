@@ -21,10 +21,8 @@ segment .text
 asm_main:
         enter   0,0            
         pusha
-        ;mov ebx,[a2+2*4]
-; indexing [base address + data size * index]
-        ;mov ebx,[a3+4*4]
-        ; [ base reg + factor * index ]
+        ;mov ebx,[a2+2*4] ; indexing [base address + data size * index]
+        ;mov ebx,[a3+4*4] ; [ base reg + factor * index ]
 
         mov eax,a4
         mov edx,0    ; we'll make edx the index

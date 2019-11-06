@@ -14,6 +14,24 @@ int PRE_CDECL calc( int, int ) POST_CDECL; /* prototype for assembly routine */
 
 int main( void )
 {
+   int sum = 0;
+   for(int i=0;i<10;i++)
+   {
+      sum += calc(i*10,(i+1)*10-1);
+      printf("(%d,%d) Sum is %d\n", i*10,(i+1)*10-1,calc(i*10, (i+1)*10-1));
+   }
+   sum += 100;
+   printf("-----------\n%d\n",sum);
+      /*
   printf("Sum is %d\n", calc(10, 20));
+  printf("Sum is %d\n", calc(20, 30));
+  printf("Sum is %d\n", calc(30, 40));
+  printf("Sum is %d\n", calc(40, 50));
+  printf("Sum is %d\n", calc(50, 60));
+  printf("Sum is %d\n", calc(60, 70));
+  printf("Sum is %d\n", calc(70, 80));
+  printf("Sum is %d\n", calc(80, 90));
+  printf("Sum is %d\n", calc(90, 100));
+  */
   return 0;
 }
