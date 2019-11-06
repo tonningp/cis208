@@ -1,41 +1,27 @@
+%include "asm_io.inc"
+
+%define DWORD_FACTOR 4
 segment .data
-board  db '-','-','-',0,'-','-','-',0,'-','-','-',0
-format_str db "%s",10,0
+
+matrix:  dd 11,12,21,22,31,32
+
 segment .text
         global  asm_main
-        extern  printf
         
 
 asm_main:
         enter   0,0            
         pusha
-        mov    [board + 5],BYTE 'X'
-        call   pboard
-b1:     
-        popa
-        mov     eax,0
-        leave
-        ret
 
-pboard:
-        enter   0,0            
-        pusha
-        mov    eax,board
-        push   eax
-        push   format_str
-        call   printf
-        add    esp,8
-        mov    eax,board + 4
-        push   eax
-        push   format_str
-        call   printf
-        add    esp,8
-        mov    eax,board + 8
-        push   eax
-        push   format_str
-        call   printf
-        add    esp,8
+        mov ebx, matrix  
+
+        mov eax, [ebx + 2*(DWORD_FACTOR * 1) + DWORD_FACTOR * 1]
+b1:
+        call print_int 
+        call print_nl
+
         popa
+        mov   eax,0
         leave
         ret
 
