@@ -1,4 +1,4 @@
-
+%include "asm_io.inc"
 
 ;
 ; file: array1.asm
@@ -15,7 +15,6 @@
 segment .data
 
 array1  db  5,4,3,2,1 ; array of bytes
-array2  dw  5,4,3,2,1 ; array of words
 
 segment .bss
 
@@ -27,10 +26,20 @@ asm_main:
         enter   0,0       
 
         xor eax,eax 
-        mov ebx,array1
-        mov dx,0
-b1:
-        ;mov [array1 + 3],al
+
+        mov ebx,array1 ; ebx = address of array1
+        mov dx, 0 ; dx will hold sum
+        mov ecx, 5
+lp:
+        add dl, [ebx] ; dl += *ebx
+        adc dh,   0 ; dh += carry flag + 0
+        inc ebx   ; bx++
+        loop lp   ;
+
+        mov  al,dl
+        call print_int
+        call print_nl
+
         mov     eax, 0            ; return back to C
         leave                     
         ret
