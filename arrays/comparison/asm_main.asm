@@ -1,5 +1,6 @@
 ; file: asm_main.asm
-;
+; description: finds a value in the array
+;   the value to find is in eax
 ; 
 
 %include "asm_io.inc"
@@ -18,7 +19,7 @@ asm_main:
         mov    edi, array
         mov    [edi+4*49],DWORD 13
         mov    ecx,50
-        mov    eax, 12
+        mov    eax, 13
 lp:
         scasd
         je      found

@@ -17,13 +17,19 @@ segment .text
 asm_main:
         enter   0,0            
         pusha
-
+        xor eax,eax
+        mov al,[a1]
+        mov ah,[a1 + 1]
+        shl eax,0x10
 b1:     
+        mov eax,[a1]
+
+        mov al,[a1 + 2]
+        mov al,[a1 + 3]
+        mov al,[a1 + 4]
         popa
         mov     eax,0
         leave
         ret
-
-
 
 

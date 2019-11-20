@@ -16,9 +16,5 @@ run :
 
 edit:
 	vim asm_main.asm
-
-debug: main
-	gdb ./main
-
 clean :
 	@rm *.o *.list main
