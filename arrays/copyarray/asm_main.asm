@@ -7,8 +7,8 @@
 ;
 segment .data
 
-array1: dw 1,2,3,4,5,6,7,8,9,10          ; 1 byte elements
-array1_copy: dw 0,0,0,0,0,0,0,0,0,0          ; 1 byte elements
+array1: dw 1,2,3,4,5,6,7,8,9,10          ; 1 word elements
+array1_copy: dw 0,0,0,0,0,0,0,0,0,0          ; 1 word elements
 
 
 ; uninitialized data is put in the .bss segment

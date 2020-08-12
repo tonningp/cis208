@@ -17,7 +17,7 @@ run :
 edit:
 	vim asm_main.asm
 
-debug:
+debug: main
 	gdb ./main
 
 clean :

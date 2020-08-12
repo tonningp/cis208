@@ -1,6 +1,8 @@
+%include "asm_io.inc"
 
 segment .data
-a1  db 'h','e','l','l','o','\0'
+a1     db 'h','e','l','l','o','\0'
+a1cpy  TIMES 6 db 0
 a2  dw 10,9,8,7,6
 a3  dd 10,9,8,7,6
 a4  TIMES 10 dd 0
@@ -24,6 +26,22 @@ asm_main:
         ;mov ebx,[a2+2*4] ; indexing [base address + data size * index]
         ;mov ebx,[a3+4*4] ; [ base reg + factor * index ]
 
+        mov cl,6
+        mov ebx,a1
+        mov edx,a1cpy
+
+copyloop:
+        mov al,[ebx]
+        mov [edx],al
+        inc ebx 
+        inc edx 
+        loop copyloop
+
+        mov eax,a1
+b2:     
+        call print_string
+        call print_nl
+
         mov eax,a4
         mov edx,0    ; we'll make edx the index
         mov [eax + WORDSIZE * edx ],DWORD 10
@@ -34,7 +52,6 @@ asm_main:
         inc edx
         mov [eax + WORDSIZE * edx ],DWORD 7
 
-b1:     
         popa
         mov     eax,0
         leave

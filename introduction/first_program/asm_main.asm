@@ -55,15 +55,10 @@ asm_main:
         enter   0,0               ; setup routine
 
         pusha
-
         mov eax,syswrite        ; 4 is the vector for the syswrite function
-
         mov ebx,stdout          ; standard output, 1 is for stdout
-
         mov ecx,hello           ; the address of the string
-
         mov edx,helloLen        ; size of the string (number of characters)
-
         int kernelcall          ; call the interrupt to execute the syswrite function
 
 ; next print out result message as series of steps
