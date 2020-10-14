@@ -20,10 +20,16 @@ asm_main:
         pusha
         mov eax,0
         mov ecx,10
+        ; for(ecx = 10;ecx > 0;ecx--)
+        ; {
+        ;    ...
+        ; }
 loop_start:
         add eax,ecx
+        dump_regs 0
         loop loop_start
 loop_end:
+        dump_regs 1
         call print_int
         call print_nl
 

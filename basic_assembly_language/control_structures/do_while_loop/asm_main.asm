@@ -31,19 +31,21 @@ asm_main:
 
 b1:
 	mov eax,10
-	mov ebx,20
+	mov ebx,13
 
 ; example of a do while loop
 
 do:
 	mov ecx,eax 		; save state of eax
+    dump_regs 0
 	mov eax,yes_string	; load address of the yes_string
 	call print_string	; print out Yes
-	mov eax,ecx		; restore eax
-	inc eax  		; increment eax by 1
-	cmp eax,ebx		; compare the values
-	jb do			; jump if eax < ebx
+	mov eax,ecx		    ; restore eax
+	inc eax  		    ; increment eax by 1
+	cmp eax,ebx		    ; compare the values
+	jb do			    ; jump if eax < ebx
 enddo:
+    dump_regs 1
 	mov eax,end_string
 	call print_string
 
